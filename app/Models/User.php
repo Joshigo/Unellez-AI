@@ -21,10 +21,11 @@ class User extends Authenticatable
         'role_id',
         'program_id',
         'name',
-        // 'username',
         'ci',
         'email',
         'password',
+        'verification_code',
+        'email_verified_at',
     ];
 
     /**
