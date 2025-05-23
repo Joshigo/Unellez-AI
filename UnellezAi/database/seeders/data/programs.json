@@ -1,0 +1,206 @@
+{
+    "programs": [
+        {
+            "name": "Ciencias Jurídicas y Políticas",
+            "projects": [
+                {
+                    "name": "Derecho",
+                    "description": "El programa de Derecho de la Universidad Unellez tiene como objetivo formar profesionales con una sólida formación en el ámbito jurídico, capaces de interpretar y aplicar las normas legales en diferentes contextos."
+                }
+            ]
+        },
+        {
+            "name": "Ciencias del Agro y del Mar",
+            "projects": [
+                {
+                    "name": "Ingeniería Agronómica",
+                    "description": "El programa de Ingeniería Agronómica de la Universidad Unellez tiene como objetivo formar profesionales con una sólida formación en el ámbito agrícola, capaces de aplicar técnicas y tecnologías para mejorar la producción agrícola."
+                },
+                {
+                    "name": "Ingeniería Agrícola",
+                    "description": "El programa de Ingeniería Agronómica de la Universidad Unellez tiene como objetivo formar profesionales con una sólida formación en el ámbito agrícola, capaces de aplicar técnicas y tecnologías para mejorar la producción agrícola."
+                },
+                {
+                    "name": "Ingeniería en Producción Animal",
+                    "description": "El programa de Ingeniería en Producción Animal de la Universidad Unellez tiene como objetivo formar profesionales con una sólida formación en el ámbito de la producción animal, capaces de aplicar técnicas y tecnologías para mejorar la producción ganadera."
+                },
+                {
+                    "name": "Ingeniería Agroindustrial",
+                    "description": "El programa de Ingeniería Agroindustrial de la Universidad Unellez tiene como objetivo formar profesionales con una sólida formación en el ámbito agroindustrial, capaces de aplicar técnicas y tecnologías para mejorar la producción agroindustrial."
+                },
+                {
+                    "name": "Ingeniería en Recursos Naturales Renovables",
+                    "description": "El programa de Ingeniería en Recursos Naturales de la Universidad Unellez tiene como objetivo formar profesionales con una sólida formación en el ámbito de los recursos naturales, capaces de aplicar técnicas y tecnologías para la gestión sostenible de los recursos naturales."
+                },
+                {
+                    "name": "T.S.U para la Industria de Alimentos",
+                    "description": "El programa de T.S.U para la Industria de Alimentos de la Universidad Unellez tiene como objetivo formar profesionales con una sólida formación en el ámbito de la industria de alimentos, capaces de aplicar técnicas y tecnologías para mejorar la producción y calidad de los alimentos."
+                },
+                {
+                    "name": "T.S.U en Agroindustrial Mencіón Granos y Semillas",
+                    "description": "El programa de T.S.U en Agroindustrial Mención Granos y Semillas de la Universidad Unellez tiene como objetivo formar profesionales con una sólida formación en el ámbito agroindustrial, capaces de aplicar técnicas y tecnologías para mejorar la producción y calidad de los granos y semillas."
+                },
+                {
+                    "name": "T.S.U en Pesca Continental y Piscicultura",
+                    "description": "El programa de T.S.U en Pesca Continental y Piscicultura de la Universidad Unellez tiene como objetivo formar profesionales con una sólida formación en el ámbito de la pesca continental y la piscicultura, capaces de aplicar técnicas y tecnologías para mejorar la producción pesquera."
+                },
+                {
+                    "name": "Medicina Veterinaria (PNF)",
+                    "description": "El programa de Medicina Veterinaria de la Universidad Unellez tiene como objetivo formar profesionales con una sólida formación en el ámbito de la medicina veterinaria, capaces de aplicar técnicas y tecnologías para mejorar la salud y bienestar animal."
+                }
+            ]
+        },
+        {
+            "name": "Ciencias de la Educación y Humanidades",
+            "projects": [
+                {
+                    "name": "Licenciatura en Educación Mención Castellano y Literatura",
+                    "description": "El programa de Licenciatura en Educación Mención Castellano y Literatura de la Universidad Unellez tiene como objetivo formar profesionales con una sólida formación en el ámbito de la educación, capaces de enseñar y promover la lectura y escritura en castellano y literatura."
+                },
+                {
+                    "name": "Licenciatura en Educación Mención: Educación Física, Deporte y Recreación",
+                    "description": "El programa de Licenciatura en Educación Mención: Educación Física, Deporte y Recreación de la Universidad Unellez tiene como objetivo formar profesionales con una sólida formación en el ámbito de la educación física, capaces de promover la actividad física y el deporte en diferentes contextos."
+                },
+                {
+                    "name": "Licenciatura en Educación Mención Física",
+                    "description": "El programa de Licenciatura en Educación Mención Física de la Universidad Unellez tiene como objetivo formar profesionales con una sólida formación en el ámbito de la educación física, capaces de enseñar y promover la actividad física en diferentes contextos."
+                },
+                {
+                    "name": "Licenciatura en Educación, Mención Geografía e Historia",
+                    "description": "El programa de Licenciatura en Educación, Mención Geografía e Historia de la Universidad Unellez tiene como objetivo formar profesionales con una sólida formación en el ámbito de la educación, capaces de enseñar y promover el conocimiento geográfico e histórico."
+                },
+                {
+                    "name": "Licenciatura en Educación, Mención Integral",
+                    "description": "El programa de Licenciatura en Educación, Mención Integral de la Universidad Unellez tiene como objetivo formar profesionales con una sólida formación en el ámbito de la educación integral, capaces de promover el desarrollo integral de los estudiantes."
+                },
+                {
+                    "name": "Licenciatura en Educación Mención Matemática",
+                    "description": "El programa de Licenciatura en Educación Mención Matemática de la Universidad Unellez tiene como objetivo formar profesionales con una sólida formación en el ámbito de la educación, capaces de enseñar y promover el conocimiento matemático."
+                },
+                {
+                    "name": "Licenciatura en Educación Mención Especial",
+                    "description": "El programa de Licenciatura en Educación Mención Especial de la Universidad Unellez tiene como objetivo formar profesionales con una sólida formación en el ámbito de la educación especial, capaces de atender las necesidades educativas de personas con discapacidad."
+                },
+                {
+                    "name": "Licenciatura en Educación Mención Química",
+                    "description": "El programa de Licenciatura en Educación Mención Química de la Universidad Unellez tiene como objetivo formar profesionales con una sólida formación en el ámbito de la educación, capaces de enseñar y promover el conocimiento químico."
+                },
+                {
+                    "name": "Licenciatura en Educación Mención Biología",
+                    "description": "El programa de Licenciatura en Educación Mención Biología de la Universidad Unellez tiene como objetivo formar profesionales con una sólida formación en el ámbito de la educación, capaces de enseñar y promover el conocimiento biológico."
+                },
+                {
+                    "name": "Licenciatura en Educacion Mencion Ingles",
+                    "description": "El programa de Licenciatura en Educación Mención Inglés de la Universidad Unellez tiene como objetivo formar profesionales con una sólida formación en el ámbito de la educación, capaces de enseñar y promover el conocimiento del idioma inglés."
+                },
+                {
+                    "name": "Licenciatura en Educacion Mencion Agropecuaria",
+                    "description": "El programa de Licenciatura en Educación Mención Agropecuaria de la Universidad Unellez tiene como objetivo formar profesionales con una sólida formación en el ámbito de la educación, capaces de enseñar y promover el conocimiento agropecuario."
+                },
+                {
+                    "name": "Licenciatura en Educación Mención Arte",
+                    "description": "El programa de Licenciatura en Educación Mención Arte de la Universidad Unellez tiene como objetivo formar profesionales con una sólida formación en el ámbito de la educación, capaces de enseñar y promover el conocimiento artístico."
+                }
+            ]
+        },
+        {
+            "name": "Ciencias de la Salud",
+            "projects": [
+                {
+                    "name": "Licenciatura en Botánica Tropical",
+                    "description": "El programa de Licenciatura en Botánica Tropical de la Universidad Unellez tiene como objetivo formar profesionales con una sólida formación en el ámbito de la botánica, capaces de investigar y promover el conocimiento sobre las plantas tropicales."
+                },
+                {
+                    "name": "Licenciatura en Enfermería",
+                    "description": "El programa de Licenciatura en Enfermería de la Universidad Unellez tiene como objetivo formar profesionales con una sólida formación en el ámbito de la enfermería, capaces de atender y cuidar la salud de las personas."
+                },
+                {
+                    "name": "Licenciatura en Estadistica de la Salud",
+                    "description": "El programa de Licenciatura en Estadística de la Salud de la Universidad Unellez tiene como objetivo formar profesionales con una sólida formación en el ámbito de la estadística, capaces de aplicar técnicas estadísticas en el campo de la salud."
+                },
+                {
+                    "name": "Licenciatura en Orientación",
+                    "description": "El programa de Licenciatura en Orientación de la Universidad Unellez tiene como objetivo formar profesionales con una sólida formación en el ámbito de la orientación, capaces de guiar y asesorar a las personas en su desarrollo personal y profesional."
+                },
+                {
+                    "name": "Licenciatura en Orientación (Nocturno y Fin de Semana)",
+                    "description": "El programa de Licenciatura en Orientación (Nocturno y Fin de Semana) de la Universidad Unellez tiene como objetivo formar profesionales con una sólida formación en el ámbito de la orientación, capaces de guiar y asesorar a las personas en su desarrollo personal y profesional."
+                },
+                {
+                    "name": "Licenciatura en Enfermería (Fin de Semana/Nocturno)",
+                    "description": "El programa de Licenciatura en Enfermería (Fin de Semana/Nocturno) de la Universidad Unellez tiene como objetivo formar profesionales con una sólida formación en el ámbito de la enfermería, capaces de atender y cuidar la salud de las personas."
+                }
+            ]
+        },
+        {
+            "name": "Ciencias Básicas y aplicadas",
+            "projects": [
+                {
+                    "name": "Ingeniería de Petróleo",
+                    "description": "El programa de Ingeniería de Petróleo de la Universidad Unellez tiene como objetivo formar profesionales con una sólida formación en el ámbito del petróleo, capaces de aplicar técnicas y tecnologías para la exploración y producción de petróleo."
+                },
+                {
+                    "name": "Ingeniería en Informática",
+                    "description": "El programa de Ingeniería en Informática de la Universidad Unellez tiene como objetivo formar profesionales con una sólida formación en el ámbito de la informática, capaces de desarrollar y gestionar sistemas informáticos."
+                },
+                {
+                    "name": "Ingeniería Civil",
+                    "description": "El programa de Ingeniería Civil de la Universidad Unellez tiene como objetivo formar profesionales con una sólida formación en el ámbito de la ingeniería civil, capaces de diseñar y construir infraestructuras."
+                },
+                {
+                    "name": "T.S.U Topografía",
+                    "description": "El programa de T.S.U Topografía de la Universidad Unellez tiene como objetivo formar profesionales con una sólida formación en el ámbito de la topografía, capaces de realizar mediciones y levantamientos topográficos."
+                },
+                {
+                    "name": "T.S.U en Informática",
+                    "description": "El programa de T.S.U en Informática de la Universidad Unellez tiene como objetivo formar profesionales con una sólida formación en el ámbito de la informática, capaces de desarrollar y gestionar sistemas informáticos."
+                },
+                {
+                    "name": "T.S.U en Construcción Civil",
+                    "description": "El programa de T.S.U en Construcción Civil de la Universidad Unellez tiene como objetivo formar profesionales con una sólida formación en el ámbito de la construcción civil, capaces de diseñar y construir infraestructuras."
+                },
+                {
+                    "name": "Arquitectura",
+                    "description": "El programa de Arquitectura de la Universidad Unellez tiene como objetivo formar profesionales con una sólida formación en el ámbito de la arquitectura, capaces de diseñar y construir espacios arquitectónicos."
+                },
+                {
+                    "name": "Ingeniería Agrícola",
+                    "description": "El programa de Ingeniería Agrícola de la Universidad Unellez tiene como objetivo formar profesionales con una sólida formación en el ámbito agrícola, capaces de aplicar técnicas y tecnologías para mejorar la producción agrícola."
+                },
+                {
+                    "name": "Ingeniería en Minas",
+                    "description": "El programa de Ingeniería en Minas de la Universidad Unellez tiene como objetivo formar profesionales con una sólida formación en el ámbito de la minería, capaces de aplicar técnicas y tecnologías para la exploración y explotación de recursos minerales."
+                },
+                {
+                    "name": "Licenciatura en Meteorología",
+                    "description": "El programa de Licenciatura en Meteorología de la Universidad Unellez tiene como objetivo formar profesionales con una sólida formación en el ámbito de la meteorología, capaces de investigar y promover el conocimiento sobre los fenómenos atmosféricos."
+                }
+            ]
+        },
+        {
+            "name": "Ciencias Sociales",
+            "projects": [
+                {
+                    "name": "Licenciatura en Sociología del Desarrollo",
+                    "description": "El programa de Licenciatura en Sociología de la Universidad Unellez tiene como objetivo formar profesionales con una sólida formación en el ámbito de la sociología, capaces de investigar y promover el conocimiento sobre los fenómenos sociales."
+                },
+                {
+                    "name": "Licenciatura en Administracіón",
+                    "description": "El programa de Licenciatura en Administración de la Universidad Unellez tiene como objetivo formar profesionales con una sólida formación en el ámbito de la administración, capaces de gestionar y dirigir organizaciones."
+                },
+                {
+                    "name": "Licenciatura en Contaduría Pública",
+                    "description": "El programa de Licenciatura en Contaduría Pública de la Universidad Unellez tiene como objetivo formar profesionales con una sólida formación en el ámbito de la contaduría, capaces de llevar a cabo auditorías y asesorías contables."
+                },
+                {
+                    "name": "Licenciatura en Administración Agropecuaria",
+                    "description": "El programa de Licenciatura en Administración Agropecuaria de la Universidad Unellez tiene como objetivo formar profesionales con una sólida formación en el ámbito de la administración agropecuaria, capaces de gestionar y dirigir organizaciones agropecuarias."
+                },
+                {
+                    "name": "Licenciatura en Turismo Agroecologico",
+                    "description": "El programa de Licenciatura en Turismo Agroecológico de la Universidad Unellez tiene como objetivo formar profesionales con una sólida formación en el ámbito del turismo agroecológico, capaces de promover y gestionar el turismo sostenible."
+                }
+            ]
+        }
+    ]
+}
