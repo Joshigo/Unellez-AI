@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,9 +17,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('auth.login');
-});
+// Route::get('/', function () {
+//     return view('auth.login');
+// });
+
+Route::get('/', [AuthController::class, 'index'])->name('indexLogin');
 
 // Route::post('/login', function () {
 //     return view('auth.login');
@@ -27,7 +32,7 @@ Route::get('/login', function () {
 })->name('logins');
 
 Route::post('/login', [AuthController::class, 'login'])->name('login');
-
+Route::post('/register', [AuthController::class, 'register']);
 
 Route::get('/forgotPassword', function () {
     return view('auth.forgotPassword');
@@ -37,9 +42,12 @@ Route::post('/verify', [AuthController::class, 'verify'])->name('user.verify');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth'])->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::get('/success', [AuthController::class, 'success'])->name('success');
     Route::post('/send-code', [AuthController::class, 'resendVerificationCode'])->name('resend.code');
     Route::get('/verify-email', [AuthController::class, 'showVerifyForm'])->name('user.verify.page');
+    Route::resource('dashboard', DashboardController::class);
 });
 
 Route::get('/auth-verifyEmail', function () {

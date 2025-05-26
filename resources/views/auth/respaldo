@@ -1,0 +1,41 @@
+<div class="slider">
+    <div class="slide fade">
+        <img class="active-img" src="/banner_2.png" alt="">
+        <div class="contenido-slider">
+            <div class="logo">
+                <img class="active-img" src="/logo_blue.png" alt="" style="filter: saturate(1);">
+            </div>
+            <p class="slider-texto">
+                <b style="margin-right:5px; color:#3793f6;">¿Tienes alguna pregunta o inquietud acerca de la
+                    universidad?</b>
+            </p>
+        </div>
+    </div>
+
+    <div class="slide fade">
+        <img class="active-img" src="/banner_2.png" alt="">
+        <div class="contenido-slider">
+            <div class="logo">
+                <img class="active-img" src="/logo_blue.png" alt="">
+            </div>
+            <p class="slider-texto">
+                <b style="margin-right:5px; color:#3793f6;">¡Toda la potencia de los mejores modelos de inteligencia
+                    artificial han llegado!</b>
+                <br>
+                Capaz de razonar y responder preguntas complejas, así como de generar texto coherente y relevante en una
+                variedad de temas respecto al programa que perteneces.
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- Botones next y prev -->
+<a style="display:none" href="#" class="prev"><i class="fas fa-chevron-left"></i></a>
+<a style="display:none" href="#" class="next"><i class="fas fa-chevron-right"></i></a>
+
+<!-- dots -->
+<div class="dots">
+
+    <!-- <span class="dot active"></span> -->
+
+</div>

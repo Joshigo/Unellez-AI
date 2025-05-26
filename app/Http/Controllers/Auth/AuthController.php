@@ -13,13 +13,19 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use App\Mail\VerificationCodeMail;
 use App\Mail\PasswordResetSuccessful;
-
+use App\Models\Program;
 
 class AuthController extends Controller
 {
     public function success()
     {
         return view('auth.success')->with('success', 'Registration successful');
+    }
+
+    public function index()
+    {
+        $programs = Program::all();
+        return view('auth.login', compact('programs'));
     }
 
     public function login(Request $request)
@@ -51,8 +57,9 @@ class AuthController extends Controller
             return redirect()->route('dashboard.index')
                 ->with('success', 'Login successful');
         }
-
-        return redirect()->route('logins')->with('error', 'Login failed');
+        $programs = Program::all();
+        return view('auth.login', compact('programs'))
+            ->with('error', 'Invalid credentials. Please try again.');
     }
 
     public function register(Request $request)
@@ -76,6 +83,8 @@ class AuthController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
+            'ci' => $request->ci,
+            'program_id' => $request->program_id,
             'role_id' => 3,
             'password' => Hash::make($request->password),
             'verification_code' => $verificationCode,
@@ -124,9 +133,10 @@ class AuthController extends Controller
 
         try {
             Mail::to($user->email)->send(new VerificationCodeMail($newVerificationCode));
-            return back()->with('success', 'Your verification code has been successfully resent!');
+            $programs = Program::all();
+            return view('auth.verifyEmail', compact('programs'))
+                ->with('success', 'Your verification code has been successfully resent!');
         } catch (\Exception $e) {
-            dd($e);
             return response()->json([
                 'status' => 'error',
                 'message' => 'No se pudo enviar el correo. Inténtalo de nuevo más tarde.',
@@ -164,8 +174,9 @@ class AuthController extends Controller
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-
-        return redirect()->route('logins')->with('success', ' You logged out successfully');
+        $programs = Program::all();
+        return view('auth.login', compact('programs'))
+            ->with('success', 'You logged out successfully');
     }
 
     public function resetPassword(Request $request)

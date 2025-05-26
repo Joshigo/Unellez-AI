@@ -7,10 +7,181 @@
     <link rel="shortcut icon" href="/public/favicon_emi.png" type="image/x-icon">
      <meta property="og:image" content="https://my.emiassistant.com/public/favicon_emi.png">
 
-    <title>Login | Emi CRM</title>
+    <title>Inciar sesión | Unellez AI</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
+        .left-side {
+            width: 100%;
+            height: 100%;
+
+            background: #e6e6e6;
+
+            display: flex;
+
+            justify-content: start;
+            align-items: center;
+
+            flex: 1;
+            flex-direction: column;
+
+            box-sizing: border-box;
+        }
+
+        header {
+            width: 100%;
+
+            display: flex;
+
+            justify-content: start;
+            align-items: center;
+
+            flex-direction: column;
+
+            box-sizing: content-box;
+
+        }
+        .header-container-icon {
+            margin-top: 15px;
+
+            width: 100%;
+            height: 120px;
+
+            display: flex;
+
+            justify-content: center;
+            align-items: center;
+
+            box-sizing: border-box;
+        }
+
+        .header-container-icon img {
+            height: 100%;
+
+            aspect-ratio: 1 / 1;
+
+            object-fit: contain;
+        }
+
+        .header-container-text {
+            width: 100%;
+
+            display: flex;
+
+            justify-content: center;
+            align-items: center;
+
+            flex-direction: column;
+
+            box-sizing: content-box;
+        }
+
+        .header-text {
+            width: 100%;
+
+            box-sizing: content-box;
+
+            font-size: 16px;
+
+            text-align: center;
+        }
+
+        .title-color {
+            color: #3793f6;
+        }
+
+        .normal-color {
+            color: #6a86a2;
+        }
+
+        .carousel {
+            margin-top: 10px;
+            padding: 10px;
+
+            width: 100%;
+
+            position: relative;
+
+            display: flex;
+
+            justify-content: start;
+            align-items: center;
+
+            flex: 1;
+            flex-direction: column;
+
+            box-sizing: border-box;
+        }
+
+        .carousel-container-img {
+            width: 100%;
+
+            display: flex;
+
+            justify-content: center;
+            align-items: center;
+
+            flex: 1;
+        }
+
+        .carousel-img {
+            width: 100%;
+            height: 100%;
+
+            display: flex;
+
+            justify-content: center;
+            align-items: center;
+
+            object-fit: contain;
+        }
+
+        .carousel-container-dots {
+            margin-bottom: 10px;
+
+            width: calc(100% - 20px);
+
+            min-height: 50px;
+
+            position: absolute;
+
+            bottom: 0px;
+            left: 20px;
+
+            display: flex;
+
+            justify-content: center;
+            align-items: center;
+
+            gap: 8px;
+        }
+
+        .carousel-dot {
+            width: 12px;
+            height: 12px;
+
+            background: transparent;
+
+            border: 2.5px solid #3793F6;
+            border-radius: 14px;
+
+            transition: width 0.3s ease-in-out background-color 0.3s ease-in-out;
+        }
+
+        .carousel-dot:hover {
+            cursor: pointer;
+        }
+
+        .dot-active {
+            width: 30px;
+
+            background: #3793F6;
+        }
+
+        .dot-active:hover {
+            cursor: default;
+        }
+
         :root {
             --color-negro: #364E65;
             --color-texto: #727C77;
@@ -31,8 +202,26 @@
             box-sizing: border-box;
         }
 
+        html {
+            width: 100vw;
+            height: 100vh;
+
+            display: flex;
+
+            justify-content: center;
+            align-items: center;
+        }
         body {
+            width: 100%;
+            height: 100%;
+
             background: #f7f9fd;
+
+            display: flex;
+
+            justify-content: center;
+            align-items: center;
+
             font-family: 'Lato', sans-serif;
             font-size: 15px;
         }
@@ -48,25 +237,36 @@
 
         .contenedor-login {
             width: 100%;
-            height: 100vh;
+            height: 100%;
+
             display: flex;
-            -webkit-box-align: start;
-            align-items: flex-start;
+
+            justify-content: start;
+            align-items: center;
+
+            flex: 1;
+
             overflow: hidden;
         }
 
         .contenedor-slider {
-            width: calc(100% - 520px);
             height: 100%;
+
+            display: flex;
+
+            flex: 1;
+
             overflow: hidden;
             position: relative;
         }
 
         .slider {
-            position: relative;
-            display: flex;
             width: 100%;
             height: 100%;
+
+            position: relative;
+
+            display: flex;
         }
 
         .slide {
@@ -191,11 +391,36 @@
         }
 
         .contenedor-texto {
-            width: 520px;
-            height: 100%;
+            --real-width: 450px;
+
+            min-width: var(--real-width);
+            max-width: var(--real-width);
+
+            height: 100vh;
+
+            background: #fff;
+
             overflow: hidden;
             overflow-y: auto;
-            background: #fff;
+        }
+
+        /* --- Scroll bar --- */
+        .contenedor-texto::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .contenedor-texto::-webkit-scrollbar-track {
+            background: #a0a0a0;
+        }
+
+        .contenedor-texto::-webkit-scrollbar-thumb {
+            background: #ebebeb;
+        }
+
+        .contenedor-texto::-webkit-scrollbar-thumb:hover {
+            background: #d3d3d3;
+
+            cursor: pointer;
         }
 
         .contenedor-form {
@@ -554,8 +779,6 @@
         }
 
         @media screen and (max-width: 1024px) {
-
-
             .contenedor-form {
                 padding: 50px;
             }
@@ -575,10 +798,10 @@
             }
 
             .slide img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-}
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+            }
         }
     </style>
 
@@ -609,64 +832,28 @@
     @endif
     <div class="contenedor-login">
         <div class="contenedor-slider">
+            <div class="left-side">
+                <header>
+                    <div class="header-container-icon">
+                        <img src="/logo_blue.png" alt="Unellez AI Logo">
+                    </div>
+                    <section class="header-container-text">
+                        <h1 class="header-text title-color">Título</h1>
+                        <h2 class="header-text normal-color">Subtítulo</h2>
+                    </section>
+                </header>
 
-            <div class="slider">
-                <div class="slide fade ">
-                    <img class="active-img" src="/otrar.png" alt="">
-
-                    <div class="contenido-slider">
-
-                        <div class="logo">
-                            <img class="active-img" src="/Logo222.png" alt="">
-                        </div>
-
-                        <p class="slider-texto">
-                            <b style="margin-right:5px; color:#3793f6;">¿Ready to take your business to the next
-                                level?</b><br> Discover the power of our CRM with Artificial Intelligence, designed to
-                            transform the way you manage your business.
-                        </p>
-
+                <div class="carousel">
+                    <div class="carousel-container-img">
+                        <img class="carousel-img" src="banner_2.png">
                     </div>
 
-                </div>
-
-                <!-- Slide 2 -->
-                <div class="slide fade">
-                    <img class="active-img" src="/star.png" alt="">
-
-                    <div class="contenido-slider">
-
-                        <div class="logo">
-                            <img class="active-img" src="/Logo222.png" alt="">
-                        </div>
-
-                        <p class="slider-texto">
-                            <b style="margin-right:5px; color:#3793f6;">¡Boost your business to the max with our
-                                exclusive Masterclass! </b>
-                            <br>
-                            ¿Do you want to master the tools that will take your company to the next level? Learn
-                            directly from Carlos Londoño, visionary CEO, in a unique experience that will transform your
-                            business strategy.
-                        </p>
-
+                    <div class="carousel-container-dots">
+                        <span class="carousel-dot dot-active"></span>
+                        <span class="carousel-dot"></span>
                     </div>
-
                 </div>
-
-
             </div>
-
-            <!-- Botones next y prev -->
-            <a style="display:none" href="#" class="prev"><i class="fas fa-chevron-left"></i></a>
-            <a style="display:none" href="#" class="next"><i class="fas fa-chevron-right"></i></a>
-
-            <!-- dots -->
-            <div class="dots">
-
-                <!-- <span class="dot active"></span> -->
-
-            </div>
-
         </div>
         <div class="contenedor-texto">
 
@@ -679,8 +866,8 @@
 
                 <!-- Tabs -->
                 <ul class="tabs-links">
-                    <li class="tab-link active">Sign In</li>
-                    <li class="tab-link ">Sign Up</li>
+                    <li class="tab-link active">Iniciar sesión</li>
+                    <li class="tab-link ">Registrarse</li>
                 </ul>
 
                 <!--========================================
@@ -695,18 +882,17 @@
                     <input type="email" placeholder="Email" class="input-text" id="email" name="email" autocomplete="off">
                     <div class="grupo-input">
 
-                        <input type="password" placeholder="Password" id="password" name="password" class="input-text clave">
+                        <input type="password" placeholder="Contraseña" id="password" name="password" class="input-text clave">
                         <button type="button" class="icono fas fa-eye mostrarClave"></button>
 
                     </div>
-
-                    <a href="{{route('password.forgot')}}" class="link">¿Forgot your password?</a>
-                    <button class="btn" id="btnLogin" type="submit">Login</button>
+                    <a href="{{route('password.forgot')}}" class="link">¿Olvidaste tu contraseña?</a>
+                    <button class="btn" id="btnLogin" type="submit">Iniciar sesión</button>
 
 
                     <div class="police">
-                        <a href="https://my.emiassistant.com/privacy-policy" class="link">Privacy Policy</a>
-                        <a href="https://my.emiassistant.com/terms" class="link">Terms and Conditions</a>
+                        <a href="https://my.emiassistant.com/privacy-policy" class="link">Políticas de privacidad</a>
+                        <a href="https://my.emiassistant.com/terms" class="link">Términos y condiciones</a>
                     </div>
 
                 </form>
@@ -719,15 +905,21 @@
                     <div class="error-text ">
 
                     </div>
-                    <input type="text" placeholder="Name and Surname" class="input-text" id="name" name="name"
-                        autocomplete="off">
+                    <input type="text" placeholder="Nombre completo" class="input-text" id="name" name="name" autocomplete="off">
+                    <input type="text" placeholder="Cédula" class="input-text" id="ci" name="ci" autocomplete="off">
+                    <select name="program_id" id="program_id" class="input-text">
+                        <option value="">Seleccione un programa</option>
+                        @foreach($programs as $program)
+                            <option value="{{ $program->id }}">{{ $program->name }}</option>
+                        @endforeach
+                    </select>
                     <input type="email" placeholder="Email" class="input-text" name="email" id="email" autocomplete="off">
-                     <input type="text" placeholder="Business (Opcional)" class="input-text" id="business" name="business" autocomplete="off">
                     <div class="grupo-input">
                         <input type="password" placeholder="Password" name="password" class="input-text clave">
                         <button type="submit" class="icono fas fa-eye mostrarClave"></button>
-
                     </div>
+
+
                     <!-- Checkbox Personalizados -->
                     <label class="contenedor-cbx animate">
                         I would like to receive notifications about products
@@ -746,16 +938,7 @@
                     </label>
 
                     <button class="btn" id="btnRegistro" type="button">Create Account</button>
-                    <div class="social-login">
-                        <a href="{{url('auth/google')}}" class="social-btn" aria-label="Iniciar sesión con Google">
-                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg"
-                                alt="Google logo">
-                        </a>
-                        <a href="{{url('auth/facebook')}}" class="social-btn" aria-label="Iniciar sesión con Facebook">
-                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/facebook/facebook-original.svg"
-                                alt="Facebook logo">
-                        </a>
-                    </div>
+
 
                 </form>
 
@@ -766,66 +949,8 @@
 
     </div>
 
-
-
-    <!--========================================
-       Mis Scripts
-    ==========================================-->
-
     <script>
-        if (document.querySelector('.contenedor-slider')) {
-            let index = 1;
-            let selectedIndex = 1;
-            const slides = document.querySelector('.slider');
-            const slide = slides.children;
-            const slidesTotal = slides.childElementCount;
-            const dots = document.querySelector('.dots');
-            const prev = document.querySelector('.prev');
-            const next = document.querySelector('.next');
-            for (let i = 0; i < slidesTotal; i++) {
-                dots.innerHTML += '<span class="dot"></span>';
-            }
-            mostrarSlider(index);
-            setInterval(() => {
-                mostrarSlider(index = selectedIndex);
-            }, 5000);
-            function mostrarSlider(num) {
-                if (selectedIndex > slidesTotal) {
-                    selectedIndex = 1;
-                } else {
-                    selectedIndex++;
-                }
-                if (num > slidesTotal) {
-                    index = 1;
-                }
-                if (num < 1) {
-                    index = slidesTotal;
-                }
-                for (let i = 0; i < slidesTotal; i++) {
-                    slide[i].classList.remove('active');
-                }
-                for (let x = 0; x < dots.children.length; x++) {
-                    dots.children[x].classList.remove('active');
-                }
-                slide[index - 1].classList.add('active');
-                dots.children[index - 1].classList.add('active');
-            }
-            next.addEventListener('click', (e) => {
-                mostrarSlider(index += 1);
-                selectedIndex = index;
-            });
 
-            prev.addEventListener('click', (e) => {
-                mostrarSlider(index += -1);
-                selectedIndex = index;
-            });
-            for (let y = 0; y < dots.children.length; y++) {
-                dots.children[y].addEventListener('click', () => {
-                    mostrarSlider(index = y + 1);
-                    selectedIndex = y + 1;
-                });
-            }
-        }
         const tabLink = document.querySelectorAll('.tab-link');
         const formularios = document.querySelectorAll('.formulario');
         for (let x = 0; x < tabLink.length; x++) {
@@ -869,16 +994,15 @@
                 name = formRegistro.name.value.trim();
                 email = formRegistro.email.value.trim();
                 password = formRegistro.password.value.trim();
-                business = formRegistro.business.value.trim();
                 cbx_notificaciones = formRegistro.cbx_notificaciones;
                 cbx_terminos = formRegistro.cbx_terminos;
-                if (name == "" && email == "" && password == "" && business == "") {
+                if (name == "" && email == "" && password == "") {
                     mostrarError('Todos los campos son obligatorios', msError);
                     inputError([formRegistro.name, formRegistro.email, formRegistro.password]);
                     return false;
 
                 } else {
-                    inputErrorRemove([formRegistro.name, formRegistro.email, formRegistro.password, formRegistro.business]);
+                    inputErrorRemove([formRegistro.name, formRegistro.email, formRegistro.password]);
                 }
                 if (name == "" || name == null) {
                     mostrarError('Por favor ingrese su nombre', msError);
@@ -922,19 +1046,7 @@
                     }
                 }
 
-                 if (business == "" || business == null) {
-                    mostrarError('Por favor ingrese un nombre de empresa', msError);
-                    inputError([formRegistro.business]);
-                    formRegistro.business.focus();
-                    return false;
-                } else {
-                    if (business.length <= 4) {
-                        mostrarError('nombre muy corto', msError);
-                        inputError([formRegistro.business]);
-                        formRegistro.business.focus();
-                        return false;
-                    }
-                }
+
 
 
                 if (cbx_terminos.checked == false) {
