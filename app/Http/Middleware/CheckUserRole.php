@@ -26,10 +26,10 @@ class CheckUserRole
 
         $user = Auth::user();
 
-        if (in_array($user->rol_id, $roles)) {
+        if (in_array($user->role_id, $roles)) {
             return $next($request);
         }
 
-        return redirect()->route('unauthorized')->with('error', 'No tienes permiso para acceder a esta página');
+        return redirect()->back()->with('error', 'No tienes permiso para acceder a esta página');
     }
 }

@@ -13,7 +13,7 @@ class StoreUserRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -26,9 +26,9 @@ class StoreUserRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email',
-            'password' => 'required|string|min:8|confirmed',
             'ci' => 'required|string|max:9|unique:users,ci',
             'program_id' => 'required|exists:programs,id',
+            'role_id' => 'required|exists:roles,id',
         ];
     }
 
@@ -43,16 +43,14 @@ class StoreUserRequest extends FormRequest
             'email.email' => 'El correo electrónico debe ser válido.',
             'email.max' => 'El correo electrónico no debe exceder 255 caracteres.',
             'email.unique' => 'El correo electrónico ya está registrado.',
-            'password.required' => 'La contraseña es obligatoria.',
-            'password.string' => 'La contraseña debe ser una cadena de texto.',
-            'password.min' => 'La contraseña debe tener al menos 8 caracteres.',
-            'password.confirmed' => 'La confirmación de la contraseña no coincide.',
             'ci.required' => 'La cédula es obligatoria.',
             'ci.string' => 'La cédula debe ser una cadena de texto.',
             'ci.max' => 'La cédula no debe exceder 9 caracteres.',
             'ci.unique' => 'La cédula ya está registrada.',
             'program_id.required' => 'El programa es obligatorio.',
             'program_id.exists' => 'El programa seleccionado no es válido.',
+            'role_id.required' => 'El rol es obligatorio.',
+            'role_id.exists' => 'El rol seleccionado no es válido.',
         ];
     }
 }

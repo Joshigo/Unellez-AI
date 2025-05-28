@@ -6,14 +6,14 @@
 <head>
     <meta charset="utf-8" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta property="og:image" content="https://my.emiassistant.com/favicon_emi.png">
+    {{--  <meta property="og:image" content="https://my.emiassistant.com/favicon_emi.png">  --}}
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>Emi-CRM | @yield('title')</title>
+    <title>Unellez AI | @yield('title')</title>
     <meta name="description" content="" />
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{{ asset('favicon_emi.png') }}" />
+    <link rel="icon" type="image/x-icon" href="{{ asset('icon_blue.png') }}" />
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -251,7 +251,9 @@
 
                 @include('layout.includes.footer')
             </div>
-
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="{{ asset('sneat/assets/js/menu.js') }}"></script>
+        @stack('scripts')
         </div>
         <div class="modal fade modal-config" id="backDropModal" data-bs-backdrop="static" tabindex="-1">
             <div class="modal-dialog ">
@@ -394,13 +396,13 @@
                                 </div>
                             </div>
                         </div>
-                       <div class="m-3">
-    <a href="#" class="btn btn-danger" onclick="eliminarDatos(event)">Deleted training data</a>
-</div>
+                    <div class="m-3">
+                        <a href="#" class="btn btn-danger" onclick="eliminarDatos(event)">Deleted training data</a>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
         <div class="modal fade modal-config" id="aiTrainingStatusModal" tabindex="-1"
             aria-labelledby="aiTrainingStatusModalLabel" aria-hidden="true">
@@ -497,14 +499,14 @@
           </div>
         </div>
       </div>
-    <link href="{{ asset('sneat/assets/vendor/libs/jquery/jquery.js') }}" rel="preload" as="script" />
-    <link href="{{ asset('sneat/assets/vendor/libs/popper/popper.js') }}" rel="preload" as="script" />
-    <link href="{{ asset('sneat/assets/vendor/js/bootstrap.js') }}" rel="preload" as="script" />
-    <link href="{{ asset('sneat/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}" rel="preload" as="script" />
-    <link href="{{ asset('sneat/assets/vendor/js/menu.js') }}" rel="preload" as="script" />
-    <link href="{{ asset('sneat/assets/vendor/libs/apex-charts/apexcharts.js') }}" rel="preload" as="script" />
-    <link href="{{ asset('sneat/assets/js/main.js') }}" rel="preload" as="script" />
-    <link href="{{ asset('sneat/assets/js/dashboards-analytics.js') }}" rel="preload" as="script" />
+    {!! Html::script('sneat/assets/vendor/libs/jquery/jquery.js') !!}
+    {!! Html::script('sneat/assets/vendor/libs/popper/popper.js') !!}
+    {!! Html::script('sneat/assets/vendor/js/bootstrap.js') !!}
+    {!! Html::script('sneat/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') !!}
+    {!! Html::script('sneat/assets/vendor/js/menu.js') !!}
+    {!! Html::script('sneat/assets/vendor/libs/apex-charts/apexcharts.js') !!}
+    {!! Html::script('sneat/assets/js/main.js') !!}
+    {!! Html::script('sneat/assets/js/dashboards-analytics.js') !!}
 
 
     <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
@@ -516,6 +518,24 @@
 
 
     <script>
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggleMenu = document.getElementById('toggle-menu');
+            const layoutMenu = document.getElementById('layout-menu');
+            const layoutMenuToggle = document.querySelector('.layout-menu-toggle.menu-link');
+
+            if (toggleMenu && layoutMenu) {
+                toggleMenu.addEventListener('click', function() {
+                    layoutMenu.classList.toggle('menu-hidden');
+                });
+            }
+
+            if (layoutMenuToggle) {
+                layoutMenuToggle.addEventListener('click', function() {
+                    layoutMenu.classList.toggle('menu-hidden');
+                });
+            }
+        });
         document.addEventListener('DOMContentLoaded', function() {
             var pageLoader = document.getElementById('page-loader');
 
@@ -535,15 +555,7 @@
             });
         });
 
-        $.getJSON('countries.json', function(data) {
-            var $countrySelect = $('#countrySelect');
-            $.each(data, function(index, country) {
-                $countrySelect.append($('<option>', {
-                    value: country.code,
-                    text: country.name + ' (' + country.code + ')'
-                }));
-            });
-        });
+
 
         $('#countrySelect').on('change', function() {
             var selectedCode = $(this).val();
@@ -730,16 +742,6 @@
         }
 
 
-
-        $.getJSON('countries.json', function(data) {
-            var $countrySelect = $('#countrySelect');
-            $.each(data, function(index, country) {
-                $countrySelect.append($('<option>', {
-                    value: country.code,
-                    text: country.name + ' (' + country.code + ')'
-                }));
-            });
-        });
 
         $('#countrySelect').on('change', function() {
             var selectedCode = $(this).val();

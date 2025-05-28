@@ -1,193 +1,192 @@
-@extends('layouts.main')
-@section('title', 'Crear Usuario')
-<style>
-    .custom-dropzone {
-        border: 2px dashed #007bff;
-        border-radius: 10px;
-        padding: 30px;
-        text-align: center;
-        color: #007bff;
-        cursor: pointer;
-        transition: background 0.3s;
-    }
+@extends('layout.main')
+@section('title', 'Usuarios')
 
-    .custom-dropzone.dragover {
-        background-color: #e9f5ff;
-    }
-
-    .custom-dropzone img {
-        margin-top: 15px;
-        max-width: 250px;
-        border-radius: 5px;
-    }
-
-    .custom-dropzone input[type="file"] {
-        display: none;
-    }
-</style>
 @section('content')
-    {{-- <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-    </div> --}}
-
-
+<div class="container-xxl flex-grow-1 container-p-y">
     <div class="row">
-        <div class="col-lg-12">
-            <div class="card shadow mb-4">
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Crear Usuario</h6>
+        <!-- Formulario para agregar usuario -->
+        <div class="col-lg-12 mt-5">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title"><b>Crear Usuario</b></h3>
                 </div>
                 <div class="card-body">
-                    <form action="{{route('users.store')}}" method="POST" enctype="multipart/form-data" >
+                    <form action="{{ route('users.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
-                        <div class="row">
-                            <div class="col-md-3 mb-3">
-                                <label for="name" class="form-label">Nombre</label>
-                                <input type="text" class="form-control" id="name" name="name" required>
+                        <div class="row justify-content-center">
+                            <div class="col-md-5 m-2">
+                                <input type="text" name="name" id="name" class="form-control" placeholder="Name" required>
                             </div>
-                            <div class="col-md-3 mb-3">
-                                <label for="username" class="form-label">Username</label>
-                                <input type="text" class="form-control" id="username" name="username" required>
+                            <div class="col-md-5 m-2">
+                                <input type="number" name="ci" id="ci" class="form-control" placeholder="Cédula" required>
                             </div>
-                            <div class="col-md-3 mb-3">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="email" name="email" required>
+                            <div class="col-md-5 m-2">
+                                <input type="email" name="email" id="email" class="form-control" placeholder="Email" required>
                             </div>
-
-
-                            <div class="col-md-3 mb-3">
-                                <label for="phone" class="form-label">Teléfono</label>
-                                <input type="text" class="form-control" id="phone" name="phone" required>
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label for="document" class="form-label">Documento de identificación</label>
-                                <input type="text" class="form-control" id="document" name="document" required>
-                            </div>
-
-
-                            <div class="col-md-4 mb-3">
-                                <label for="password" class="form-label">Contraseña</label>
-                                <input type="password" class="form-control" id="password" name="password" required>
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label for="role" class="form-label">Rol</label>
-                                <select class="form-control" id="role" name="role" required>
-                                    <option value="">Seleccionar Rol</option>
-                                    <option value="admin">Admin</option>
-                                    <option value="seller">Vendedor</option>
+                            <div class="col-md-5 m-2">
+                                <select name="role_id" id="role_id"  class="form-control" required>
+                                    <option value="">Selecciona un rol</option>
+                                    @foreach ($roles as $role)
+                                        <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
-
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Avatar</label>
-
-                            <div class="custom-dropzone" id="dropzone">
-                                <p>Arrastra tu archivo aquí o hacé clic para seleccionar</p>
-                                <input type="file" id="fileInput" name="image" accept="image/*">
-                                <div id="previewContainer"></div>
+                            <div class="col-md-5 m-2">
+                                <select name="program_id" class="form-control" required>
+                                    <option value="">Selecciona un programa</option>
+                                    @foreach ($programs as $program)
+                                        <option value="{{ $program->id }}">{{ $program->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-5 m-2">
+                                <button type="submit" class="btn btn-primary w-100">Add</button>
                             </div>
                         </div>
-
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <div id="form-messages" class="mt-3"></div>
                     </form>
                 </div>
             </div>
         </div>
-    </div>
 
+        <!-- Lista de usuarios -->
+        <div class="col-lg-12 mt-5">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title"><b>Lista de usuarios</b></h3>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="usersTable" class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="text-uppercase">Nombre</th>
+                                    <th class="text-uppercase">Cédula</th>
+                                    <th class="text-uppercase">Email</th>
+                                    <th class="text-uppercase">Programa</th>
+                                    <th class="text-center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($users as $user)
+                                    <tr data-userser-id="{{ $user->id }}">
+                                        <td>{{ $user->name }}</td>
+                                        <td>{{ $user->ci }}</td>
+                                        <td>{{ $user->email }}</td>
+                                        <td>{{ $user->program->name }}</td>
+                                        <td class="text-center">
+                                            <a href="{{ route('users.edit', $user->id) }}" class="btn btn-success" title="Edit">
+                                                <i class='bx bx-pencil'></i>
+                                            </a>
 
-    <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Listado de Clientes</h6>
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th>Nombre</th>
-                            <th>Selfie</th>
-                            <th>Documento</th>
-                            <th>Telefono</th>
-                            <th>Estatus</th>
+                                            <form action="{{ route('users.destroy', $user->id) }}" method="POST" class="d-inline" >
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-delete" title="Delete">
+                                                    <i class='bx bx-trash'></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer clearfix">
+                    <ul class="pagination pagination-sm m-0 float-right">
+                        @if ($users->onFirstPage())
+                            <li class="page-item disabled"><a class="page-link" href="#">&laquo;</a></li>
+                        @else
+                            <li class="page-item"><a class="page-link" href="{{ $users->previousPageUrl() }}">&laquo;</a></li>
+                        @endif
 
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        @foreach ($users as $user)
-                        <tr>
-                            <td>{{$user->name}}</td>
-                            <td class="text-center align-middle">
-                                @if ($user->image)
-                                    <img src="{{ asset('storage/' . $user->image) }}" alt="" width="80">
-                                @else
-                                    <span>No hay imagen registrada</span>
-                                @endif
-                            </td>
-                            <td>{{$user->document}}</td>
-                            <td>{{$user->phone}}</td>
-                            <td class="text-center align-middle">
-                                <form action="{{ route('users.change_status', $user->id) }}" method="POST">
-                                    @csrf
-                                    <button type="submit" class="btn btn-sm {{ $user->status == 'active' ? 'btn-danger' : 'btn-success' }}">
-                                        {{ $user->status == 'active' ? 'Inactivar' : 'Activar' }}
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
+                        @foreach ($users->getUrlRange(1, $users->lastPage()) as $page => $url)
+                            <li class="page-item {{ $page == $users->currentPage() ? 'active' : '' }}">
+                                <a class="page-link" href="{{ $url }}">{{ $page }}</a>
+                            </li>
                         @endforeach
 
+                        @if ($users->hasMorePages())
+                            <li class="page-item"><a class="page-link" href="{{ $users->nextPageUrl() }}">&raquo;</a></li>
+                        @else
+                            <li class="page-item disabled"><a class="page-link" href="#">&raquo;</a></li>
+                        @endif
+                    </ul>
+                </div>
+            </div>
+        </div>
 
-                </table>
+        <!-- Lista de entrenadores -->
+        <div class="col-lg-12 mt-5">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title"><b>Lista de entrenadores</b></h3>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="usersTable" class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="text-uppercase">Nombre</th>
+                                    <th class="text-uppercase">Cédula</th>
+                                    <th class="text-uppercase">Email</th>
+                                    <th class="text-uppercase">Programa</th>
+                                    <th class="text-center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($trainers as $trainer)
+                                    <tr data-userser-id="{{ $trainer->id }}">
+                                        <td>{{ $trainer->name }}</td>
+                                        <td>{{ $trainer->ci }}</td>
+                                        <td>{{ $trainer->email }}</td>
+                                        <td>{{ $trainer->program->name }}</td>
+                                        <td class="text-center">
+                                            <a href="{{ route('users.edit', $trainer->id) }}" class="btn btn-success" title="Edit">
+                                                <i class='bx bx-pencil'></i>
+                                            </a>
+
+                                            <form action="{{ route('users.destroy', $trainer->id) }}" method="POST" class="d-inline" >
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-delete" title="Delete">
+                                                    <i class='bx bx-trash'></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer clearfix">
+                    <ul class="pagination pagination-sm m-0 float-right">
+                        @if ($trainers->onFirstPage())
+                            <li class="page-item disabled"><a class="page-link" href="#">&laquo;</a></li>
+                        @else
+                            <li class="page-item"><a class="page-link" href="{{ $trainers->previousPageUrl() }}">&laquo;</a></li>
+                        @endif
+
+                        @foreach ($trainers->getUrlRange(1, $trainers->lastPage()) as $page => $url)
+                            <li class="page-item {{ $page == $trainers->currentPage() ? 'active' : '' }}">
+                                <a class="page-link" href="{{ $url }}">{{ $page }}</a>
+                            </li>
+                        @endforeach
+
+                        @if ($trainers->hasMorePages())
+                            <li class="page-item"><a class="page-link" href="{{ $trainers->nextPageUrl() }}">&raquo;</a></li>
+                        @else
+                            <li class="page-item disabled"><a class="page-link" href="#">&raquo;</a></li>
+                        @endif
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
+</div>
 
-    <script>
-        const dropzone = document.getElementById('dropzone');
-        const fileInput = document.getElementById('fileInput');
-        const previewContainer = document.getElementById('previewContainer');
-        dropzone.addEventListener('click', () => {
-            fileInput.click();
-        });
-        dropzone.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            dropzone.classList.add('dragover');
-        });
-
-        dropzone.addEventListener('dragleave', () => {
-            dropzone.classList.remove('dragover');
-        });
-
-        dropzone.addEventListener('drop', (e) => {
-            e.preventDefault();
-            dropzone.classList.remove('dragover');
-            const file = e.dataTransfer.files[0];
-            if (file) {
-                showPreview(file);
-            }
-        });
-        fileInput.addEventListener('change', () => {
-            const file = fileInput.files[0];
-            if (file) {
-                showPreview(file);
-            }
-        });
-
-        function showPreview(file) {
-            if (!file.type.startsWith('image/')) {
-                previewContainer.innerHTML = `<p style="color:red;">Solo se permiten imágenes.</p>`;
-                return;
-            }
-
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                previewContainer.innerHTML = `<img src="${e.target.result}" alt="preview">`;
-            };
-            reader.readAsDataURL(file);
-        }
-    </script>
-    @endsection
+@section('scripts')
+@endsection
+@endsection
