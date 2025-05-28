@@ -85,7 +85,7 @@ class AuthController extends Controller
             'email' => $request->email,
             'ci' => $request->ci,
             'program_id' => $request->program_id,
-            'role_id' => 3,
+            'role_id' => 4,
             'password' => Hash::make($request->password),
             'verification_code' => $verificationCode,
         ]);
