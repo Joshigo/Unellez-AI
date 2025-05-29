@@ -133,15 +133,15 @@
 </head>
 <body>
 <div class="success-container">
-    <h1>Checkout email verify</h1>
-    <p>You have already received a verification code via email. To enjoy all the benefits and functionalities of our platform, please enter this code in the login form.
+    <h1>Verifica tu correo electrónico</h1>
+    <p>Ya has recibido un código de verificación por correo electrónico. Para disfrutar de todos los beneficios y funcionalidades de nuestra plataforma, por favor ingresa este código en el formulario de inicio de sesión.
 
-        If you have any problems finding the code or accessing the system, please feel free to contact our support team.
+        Si tienes algún problema para encontrar el código o acceder al sistema, no dudes en contactar a nuestro equipo de soporte.
 
-        Enjoy EMI CRM!</p>
+        ¡Disfruta UNELLEZ AI!</p>
     <div class="card-body pb-0 px-0 px-md-4">
         <img
-            src="{{ asset('public/sneat/assets/img/illustrations/man-with-laptop-light.png') }}"
+            src="{{ asset('/sneat/assets/img/illustrations/man-with-laptop-light.png') }}"
             height="140"
             alt="User with laptop"
             data-app-dark-img="illustrations/man-with-laptop-dark.png"

@@ -31,7 +31,7 @@
 
         {{--  @if(auth()->user() && auth()->user()->role_id === 4)  --}}
             <li class="menu-item">
-                <a href="#" class="menu-link">
+                <a href="{{ route('trainings.index') }}" class="menu-link">
                     <i class="bx bx-brain me-2"></i>
                     <div data-i18n="Fluid">Entrenar</div>
                 </a>
