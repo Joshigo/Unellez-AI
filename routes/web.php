@@ -45,7 +45,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth'])->group(function () {
     Route::resource('users', UserController::class)->middleware(['auth', 'role:1,2']);
-    Route::resource('trainings', TrainingController::class)->middleware(['auth', 'role:1,2,3']);
+    Route::resource('trainings', TrainingController::class , ['except' => ['show']])->middleware(['auth', 'role:1,2,3']);
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::get('/success', [AuthController::class, 'success'])->name('success');

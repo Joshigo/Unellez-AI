@@ -53,7 +53,7 @@ class UserController extends Controller
 
         $validatedData['password'] = Hash::make($randomPassword);
 
-        Mail::to($validatedData['email'])->send(new UserCredentialsMail($randomPassword));
+        // Mail::to($validatedData['email'])->send(new UserCredentialsMail($randomPassword));
         User::create($validatedData);
 
         return redirect()->back()->with('success', 'Usuario creado con éxito.');
