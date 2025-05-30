@@ -36,6 +36,41 @@
                 </div>
             </div>
         </div>
+        <div class="col-lg-12 mt-5">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title"><b>Lista de Entrenamientos Implementados</b></h3>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="trainingsTable" class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="text-uppercase">Nombre</th>
+                                    <th class="text-uppercase">Acción</th>
+                                </tr>
+                            </thead>
+                        </table>
+                        <tbody>
+                            @foreach( $trainings as $training)
+                                <tr data-userser-id="{{ $training->id }}">
+                                    <td>{{ $training->name }}</td>
+                                </tr>
+                                <td class="text-center">
+                                    <form action="{{ route('trainings.destroy', $training->id) }} method="POST" class="d-inline"">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-delete" title="Delete">
+                                            <i class='bx bx-trash'></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            @endforeach
+                        </tbody>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 @endsection

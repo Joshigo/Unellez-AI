@@ -147,7 +147,7 @@
                                                 <i class='bx bx-pencil'></i>
                                             </a>
 
-                                            <form action="{{ route('users.destroy', $trainer->id) }}" method="POST" class="d-inline" >
+                                            <form action="{{ route('users.destroy', $trainer->id) }}" method="POST" class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger btn-delete" title="Delete">
