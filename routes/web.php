@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Chat\ChatController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Training\TrainingController;
@@ -44,6 +45,7 @@ Route::post('/verify', [AuthController::class, 'verify'])->name('user.verify');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth'])->group(function () {
+    Route::get('/chats/create', [ChatController::class, 'create'])->name('chats.create');
     Route::resource('users', UserController::class)->middleware(['auth', 'role:1,2']);
     Route::resource('trainings', TrainingController::class)->middleware(['auth', 'role:1,2,3']);
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

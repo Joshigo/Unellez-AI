@@ -41,7 +41,7 @@
 
         {{--  @if(auth()->user() && auth()->user()->role_id === 3)  --}}
             <li class="menu-item">
-                <a href="#" class="menu-link">
+                <a href="{{ route('chats.create') }}" class="menu-link"> <!-- Cambiado a create -->
                     <i class="bx bx-message-square-add me-2"></i>
                     <div data-i18n="Fluid">Crear chat</div>
                 </a>
