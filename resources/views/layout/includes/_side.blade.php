@@ -48,7 +48,14 @@
             </li>
         {{--  @endif  --}}
 
-
+        @foreach(App\Models\Chat::where('user_id', auth()->id())->latest()->get() as $chat)
+            <li class="menu-item">
+                <a href="{{ route('chats.show', $chat->id) }}" class="menu-link">
+                    <i class="bx bx-message me-2"></i>
+                    <div data-i18n="Fluid">{{ $chat->name }}</div>
+                </a>
+            </li>
+        @endforeach
 
 
     </li>

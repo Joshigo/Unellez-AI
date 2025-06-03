@@ -34,7 +34,7 @@ class ChatController extends Controller
         } else {
             $chat = Chat::create([
                 'user_id' => $user->id,
-                'name' => 'Nuevo Chat ' . now()->format('d-m-Y'),
+                'name' => now()->format('d-m-Y'),
             ]);
         }
 
@@ -80,5 +80,18 @@ class ChatController extends Controller
         $responseData = $response->json();
 
         return $responseData['candidates'][0]['content']['parts'][0]['text'] ?? 'Lo siento, no pude generar una respuesta.';
+    }
+
+    public function show(Chat $chat)
+    {
+        if ($chat->user_id !== auth()->id()) {
+            abort(403, 'No tienes permiso para acceder a este chat');
+        }
+
+        $chat->load(['messages' => function ($query) {
+            $query->orderBy('created_at', 'asc');
+        }, 'messages.response']);
+
+        return view('chats.show', compact('chat'));
     }
 }

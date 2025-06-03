@@ -47,13 +47,14 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::middleware(['auth'])->group(function () {
     Route::get('/chats/create', [ChatController::class, 'create'])->name('chats.create');
     Route::resource('users', UserController::class)->middleware(['auth', 'role:1,2']);
-    Route::resource('trainings', TrainingController::class , ['except' => ['show']])->middleware(['auth', 'role:1,2,3']);
+    Route::resource('trainings', TrainingController::class, ['except' => ['show']])->middleware(['auth', 'role:1,2,3']);
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::get('/success', [AuthController::class, 'success'])->name('success');
     Route::post('/send-code', [AuthController::class, 'resendVerificationCode'])->name('resend.code');
     Route::get('/verify-email', [AuthController::class, 'showVerifyForm'])->name('user.verify.page');
     Route::resource('dashboard', DashboardController::class);
+    Route::get('/chats/{chat}', [ChatController::class, 'show'])->name('chats.show');
 });
 
 Route::get('/auth-verifyEmail', function () {
