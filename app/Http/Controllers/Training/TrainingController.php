@@ -15,10 +15,10 @@ class TrainingController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $trainigs = Training::where('user_id', $user->id)
+        $trainings = Training::where('user_id', $user->id)
             ->orderBy('created_at', 'desc')
             ->paginate(10);
-        return view('training.index', compact('trainigs'));
+        return view('training.index', compact('trainings'));
     }
 
     public function store(StoreTrainingRequest $request)
@@ -27,8 +27,10 @@ class TrainingController extends Controller
         $training->user_id = auth()->id();
 
         if ($request->hasFile('pdf')) {
-            $pdfPath = $request->file('pdf')->store('pdfs', 'public');
+            $pdfFile = $request->file('pdf');
+            $pdfPath = $pdfFile->store('pdfs', 'public');
             $training->pdf_path = $pdfPath;
+            $training->name = $pdfFile->getClientOriginalName();
 
             try {
                 $parser = new Parser();
@@ -45,5 +47,13 @@ class TrainingController extends Controller
         $training->save();
 
         return redirect()->route('trainings.index')->with('success', 'Entrenamiento creado satisfactoriamente.');
+    }
+    
+    public function destroy($id)
+    {
+        $training = Training::findOrFail($id);
+        $training->delete();
+
+        return redirect()->back()->with('success', 'Entrenamiento eliminado con éxito.');
     }
 }

@@ -13,14 +13,14 @@
     <div class="menu-inner-shadow"></div>
     <ul class="menu-inner py-1">
 
-        @if(auth()->user() && (auth()->user()->role_id === 1 || auth()->user()->role_id === 2))
+        {{-- @if(auth()->user() && (auth()->user()->role_id === 1 || auth()->user()->role_id === 2)) --}}
         <li class="menu-item ">
             <a href="{{ route('users.index') }}" class="menu-link">
                 <i class="bx bx-user-circle me-2"></i>
                 <div data-i18n="Training">Usuarios</div>
             </a>
         </li>
-        @endif
+        {{--  @endif  --}}
 
         <li class="menu-item">
                 <a href="#" class="menu-link">
