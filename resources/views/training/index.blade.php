@@ -52,11 +52,11 @@
                             </thead>
                             <tbody>
                                 @foreach( $trainings as $training)
-                                    <tr> 
+                                    <tr>
                                         <td>{{ $training->name }}</td>
                                         <td class="text-center">
-                                            <button type="button" class="btn btn-primary me-2" 
-                                                    data-bs-toggle="modal" 
+                                            <button type="button" class="btn btn-primary me-2"
+                                                    data-bs-toggle="modal"
                                                     data-bs-target="#pdfModal{{ $training->id }}">
                                                 <i class='bx bx-show'></i>
                                             </button>
@@ -68,7 +68,7 @@
                                                 </button>
                                             </form>
                                         </td>
-                                    </tr> 
+                                    </tr>
                                 @endforeach
                             </tbody>
                         </table>
@@ -87,9 +87,9 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <embed src="{{ asset('storage/' . $training->pdf_path) }}" 
-                       type="application/pdf" 
-                       width="100%" 
+                <embed src="{{ asset('storage/' . $training->pdf_path) }}"
+                       type="application/pdf"
+                       width="100%"
                        height="600px">
             </div>
             <div class="modal-footer">
