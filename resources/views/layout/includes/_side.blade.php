@@ -29,7 +29,7 @@
                 </a>
         </li>
 
-        @if(auth()->user() && auth()->user()->role_id === 4)
+        @if(auth()->user() && auth()->user()->role_id === 3)
             <li class="menu-item">
                 <a href="{{ route('trainings.index') }}" class="menu-link">
                     <i class="bx bx-brain me-2"></i>
@@ -39,14 +39,14 @@
         @endif
 
 
-        @if(auth()->user() && auth()->user()->role_id === 3)
+        {{--  @if(auth()->user() && auth()->user()->role_id === 3)  --}}
             <li class="menu-item">
                 <a href="{{ route('chats.create') }}" class="menu-link"> <!-- Cambiado a create -->
                     <i class="bx bx-message-square-add me-2"></i>
                     <div data-i18n="Fluid">Crear chat</div>
                 </a>
             </li>
-        @endif
+        {{--  @endif  --}}
 
         @foreach(App\Models\Chat::where('user_id', auth()->id())->latest()->get() as $chat)
             <li class="menu-item">
