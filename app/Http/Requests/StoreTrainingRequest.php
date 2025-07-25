@@ -23,18 +23,26 @@ class StoreTrainingRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'pdf' => 'required|file|mimes:pdf|max:2048',
+        $rules = [
+            'type' => 'required|string|in:schedule,pdf',
         ];
+
+        if ($this->hasFile('file')) {
+            $rules['file'] = 'required|file|mimes:pdf,jpeg,png,jpg|max:2048';
+        }
+
+        return $rules;
     }
 
     public function messages()
     {
         return [
-            'pdf.required' => 'El archivo PDF es obligatorio.',
-            'pdf.file' => 'El archivo debe ser un archivo válido.',
-            'pdf.mimes' => 'El archivo debe ser un PDF.',
-            'pdf.max' => 'El archivo no debe exceder 2 MB.',
+            'file.required' => 'El archivo es obligatorio.',
+            'file.file' => 'El archivo debe ser un archivo válido.',
+            'file.mimes' => 'El archivo debe ser PDF o imagen (jpeg, png, jpg).',
+            'file.max' => 'El archivo no debe exceder 2 MB.',
+            'type.required' => 'El tipo de archivo es obligatorio.',
+            'type.in' => 'El tipo de archivo seleccionado es inválido.',
         ];
     }
 }

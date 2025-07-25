@@ -13,7 +13,8 @@ class Training extends Model
         'user_id',
         'learn',
         'name',
-        'pdf_path',
+        'file_path',
+        'type',
     ];
 
     public function user()

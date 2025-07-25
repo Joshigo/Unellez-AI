@@ -63,7 +63,7 @@ class ChatController extends Controller
         $userIds = User::where('program_id', $programId)->pluck('id');
         $learnFields = Training::whereIn('user_id', $userIds)->pluck('learn');
 
-        $context = "Responde en base a esta información, no te salgas de contexto:\n" . $learnFields->implode("\n") . "\n\nPregunta del usuario: " . $prompt;
+        $context = "Responde en base a esta información, no te salgas de contexto, si me consigues información repetida, dame toda la información al respecto:\n" . $learnFields->implode("\n") . "\n\nPregunta del usuario: " . $prompt;
 
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',

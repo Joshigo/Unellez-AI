@@ -10,29 +10,87 @@
                     <p class="card-text">En esta sección podrás enseñarle a la inteligencia artificial a responder preguntas sobre el programa. Para ello, debes proporcionarle ejemplos de preguntas y respuestas que consideres relevantes.</p>
                 </div>
                 <div class="card-body">
-                    <form action="{{route('trainings.store')}}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <div class="row justify-content-center">
-                            <div class="col-md-8">
-                                <div class="mb-3">
-                                    <label for="pdf" class="form-label">Seleccionar archivo PDF</label>
-                                    <input class="form-control" type="file" id="pdf" name="pdf" accept=".pdf" required>
-                                    @error('pdf')
-                                        <div class="text-danger">{{ $message }}</div>
-                                    @enderror
-                                    <div class="form-text">
-                                        Sube un archivo PDF que contenga ejemplos de preguntas y respuestas
+                    <!-- Pestañas para seleccionar tipo de archivo -->
+                    <ul class="nav nav-tabs mb-4" id="uploadTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="pdf-tab" data-bs-toggle="tab" data-bs-target="#pdf" type="button" role="tab">
+                                <i class="fas fa-file-pdf me-2"></i> Subir PDF
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="image-tab" data-bs-toggle="tab" data-bs-target="#image" type="button" role="tab">
+                                <i class="fas fa-image me-2"></i> Subir Imagen
+                            </button>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content" id="uploadTabContent">
+                        <!-- Formulario para PDF -->
+                        <div class="tab-pane fade show active" id="pdf" role="tabpanel">
+                        <form action="{{route('trainings.store')}}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <input type="hidden" name="type" value="pdf">
+                            <div class="row justify-content-center">
+                                <div class="col-md-8">
+                                    <div class="mb-3">
+                                        <label for="file" class="form-label">Seleccionar archivo PDF</label>
+                                        <input class="form-control" type="file" id="file" name="file" accept=".pdf" required>
+                                        @error('file')
+                                            <div class="text-danger">{{ $message }}</div>
+                                        @enderror
+                                        <div class="form-text">
+                                            Sube un archivo PDF que contenga ejemplos de preguntas y respuestas
+                                        </div>
+                                    </div>
+
+                                    <div class="text-center mt-4">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fas fa-upload me-2"></i> Subir PDF
+                                        </button>
                                     </div>
                                 </div>
-
-                                <div class="text-center mt-4">
-                                    <button type="submit" class="btn btn-primary">
-                                        <i class="fas fa-upload me-2"></i> Subir PDF
-                                    </button>
-                                </div>
                             </div>
+                        </form>
+                    </div>
+
+                        <!-- Formulario para Imágenes -->
+                        <div class="tab-pane fade" id="image" role="tabpanel">
+                            <form action="{{route('trainings.store')}}" method="POST" enctype="multipart/form-data">
+                                @csrf
+                                <div class="row justify-content-center">
+                                    <div class="col-md-8">
+                                        <div class="mb-3">
+                                            <label for="imageFile" class="form-label">Seleccionar imagen</label>
+                                            <input class="form-control" type="file" id="imageFile" name="file" accept="image/*" required>
+                                            @error('file')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                            <div class="form-text">
+                                                Sube una imagen para extraer información (ej: horarios universitarios)
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="type" class="form-label">Tipo de imagen</label>
+                                            <select class="form-select" id="type" name="type" required>
+                                                <option value="schedule">Horario Universitario</option>
+                                                <!-- Agregar más opciones aquí en el futuro -->
+                                            </select>
+                                            @error('type')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
+                                        <div class="text-center mt-4">
+                                            <button type="submit" class="btn btn-success">
+                                                <i class="fas fa-upload me-2"></i> Procesar Imagen
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -47,13 +105,15 @@
                             <thead>
                                 <tr>
                                     <th class="text-uppercase">Nombre</th>
+                                    <th class="text-uppercase">Tipo</th>
                                     <th class="text-uppercase">Acción</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach( $trainings as $training)
+                                @foreach($trainings as $training)
                                     <tr>
                                         <td>{{ $training->name }}</td>
+                                        <td>{{ $training->type }}</td>
                                         <td class="text-center">
                                             <button type="button" class="btn btn-primary me-2"
                                                     data-bs-toggle="modal"
@@ -87,10 +147,16 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <embed src="{{ asset('storage/' . $training->pdf_path) }}"
-                       type="application/pdf"
-                       width="100%"
-                       height="600px">
+                @if($training->type === 'schedule')
+                    <img src="{{ asset('storage/' . $training->file_path) }}"
+                         alt="{{ $training->name }}"
+                         class="img-fluid">
+                @else
+                    <embed src="{{ asset('storage/' . $training->file_path) }}"
+                           type="application/pdf"
+                           width="100%"
+                           height="600px">
+                @endif
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -102,4 +168,25 @@
 @endsection
 
 @section('scripts')
+<script>
+    // Activar pestañas y mantener estado
+    document.addEventListener('DOMContentLoaded', function() {
+        const uploadTab = document.getElementById('uploadTab');
+        const tabButtons = uploadTab.querySelectorAll('button[data-bs-toggle="tab"]');
+
+        tabButtons.forEach(tabButton => {
+            tabButton.addEventListener('click', function() {
+                const target = this.getAttribute('data-bs-target');
+                localStorage.setItem('activeUploadTab', target);
+            });
+        });
+
+        // Recuperar pestaña activa
+        const activeTab = localStorage.getItem('activeUploadTab');
+        if (activeTab) {
+            const tab = new bootstrap.Tab(document.querySelector(`[data-bs-target="${activeTab}"]`));
+            tab.show();
+        }
+    });
+</script>
 @endsection

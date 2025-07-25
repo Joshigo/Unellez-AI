@@ -18,7 +18,8 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->text('learn');
             $table->string('name');
-            $table->string('pdf_path')->nullable();
+            $table->string('file_path')->nullable();
+            $table->enum('type', ['schedule', 'pdf']);
             $table->timestamps();
         });
     }

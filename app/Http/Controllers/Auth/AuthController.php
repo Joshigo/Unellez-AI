@@ -75,7 +75,7 @@ class AuthController extends Controller
         if ($validator->fails()) {
             return redirect()->back()
                 ->withErrors($validator)
-                ->withInput(); // Mantiene los datos ingresados en el formulario
+                ->withInput();
         }
 
         $verificationCode = str_pad(rand(100000, 999999), 6, '0', STR_PAD_LEFT);
