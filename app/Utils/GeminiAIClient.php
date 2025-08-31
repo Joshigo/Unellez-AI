@@ -23,7 +23,10 @@ class GeminiAIClient
 
         // Construir payload según el tipo
         $prompt = self::getPromptByType($type);
-
+        $prompt .= "\nNo me retornes la información con comillas, apóstrofes, o algo que me dañe el template string. ni con un texto que diga algo como 'Respuesta:
+            ' o 'Respuesta:'. Solo dame la información que te pido. tampoco me des la información en formato JSON, dame la información de forma natural,
+            como si me la estuvieras diciendo a mí, no como si fuera un robot.
+            No me des la información en formato de lista, ni con guiones, ni con números, ni con viñetas. Dame la información de forma natural, como si me la estuvieras diciendo a mí.";
         $payload = [
             'contents' => [
                 [

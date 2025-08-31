@@ -26,25 +26,23 @@ class TrainingController extends Controller
     {
         $training = new Training();
         $training->user_id = auth()->id();
-        $training->type = $request->input('type', 'pdf'); // Guardar el tipo
+        $training->type = $request->input('type', 'pdf');
 
         if ($request->hasFile('file')) {
             $file = $request->file('file');
             $filePath = $file->store('uploads', 'public');
-            $training->file_path = $filePath; // Usar pdf_path en lugar de file_path
+            $training->file_path = $filePath;
             $training->name = $file->getClientOriginalName();
 
             $mimeType = $file->getMimeType();
 
             try {
                 if (Str::contains($mimeType, 'pdf')) {
-                    // Procesar PDF
                     $parser = new Parser();
                     $pdf = $parser->parseFile(storage_path('app/public/' . $filePath));
                     $text = $pdf->getText();
                     $training->learn = Str::limit($text, 65535);
                 } elseif (Str::startsWith($mimeType, 'image/')) {
-                    // Procesar imagen con Gemini AI
                     $text = GeminiAIClient::getInfoByImage($file, $training->type);
                     $training->learn = Str::limit($text, 65535);
                 }
