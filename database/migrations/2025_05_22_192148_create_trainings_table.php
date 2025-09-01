@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->text('learn');
+            $table->json('keywords')->nullable();
             $table->string('name');
             $table->string('file_path')->nullable();
             $table->enum('type', ['schedule', 'pdf']);

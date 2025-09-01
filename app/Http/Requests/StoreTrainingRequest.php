@@ -25,6 +25,8 @@ class StoreTrainingRequest extends FormRequest
     {
         $rules = [
             'type' => 'required|string|in:schedule,pdf',
+            'keywords' => 'nullable|array',
+            'keywords.*' => 'string|max:255',
         ];
 
         if ($this->hasFile('file')) {

@@ -64,7 +64,7 @@ class ChatController extends Controller
         $learnFields = Training::whereIn('user_id', $userIds)->pluck('learn');
 
         $context = "Responde en base a esta información, no te salgas de contexto, si me consigues información repetida, dame toda la información al respecto:\n" . $learnFields->implode("\n") . "\n\nPregunta del usuario: " . $prompt;
-
+        dd($context);
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
         ])->post("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={$apiKey}", [

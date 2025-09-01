@@ -14,7 +14,12 @@ class Training extends Model
         'learn',
         'name',
         'file_path',
+        'keywords',
         'type',
+    ];
+
+    protected $casts = [
+        'keywords' => 'array',
     ];
 
     public function user()
