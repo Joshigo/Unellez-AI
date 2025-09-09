@@ -19,7 +19,7 @@ class Training extends Model
     ];
 
     protected $casts = [
-        'keywords' => 'array',
+        'keywords' => 'array', // Guardamos como array en columna JSON aunque venga como string desde el formulario
     ];
 
     public function user()

@@ -25,8 +25,8 @@ class StoreTrainingRequest extends FormRequest
     {
         $rules = [
             'type' => 'required|string|in:schedule,pdf',
-            'keywords' => 'nullable|array',
-            'keywords.*' => 'string|max:255',
+            // Ahora "keywords" llega como un string separado por comas
+            'keywords' => 'nullable|string|max:1000',
         ];
 
         if ($this->hasFile('file')) {
@@ -45,6 +45,7 @@ class StoreTrainingRequest extends FormRequest
             'file.max' => 'El archivo no debe exceder 2 MB.',
             'type.required' => 'El tipo de archivo es obligatorio.',
             'type.in' => 'El tipo de archivo seleccionado es inválido.',
+            'keywords.string' => 'Las palabras clave deben ser una cadena de texto.',
         ];
     }
 }

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('message_id')->constrained()->onDelete('cascade');
             $table->text('content');
+            $table->enum('type', ['text', 'image'])->default('text');
             $table->timestamps();
         });
     }

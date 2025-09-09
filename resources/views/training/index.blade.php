@@ -81,34 +81,20 @@
                                             @enderror
                                         </div>
 
-                                        <!-- Keywords -->
+                                        <!-- Keywords (string) -->
                                         <div class="mb-3">
-                                            <label for="keywordInput" class="form-label">Palabras clave</label>
-                                            <div class="d-flex gap-2">
-                                                <input
-                                                    type="text"
-                                                    id="keywordInput"
-                                                    class="form-control"
-                                                    placeholder="Escribe una palabra y presiona Enter o 'Agregar'">
-                                                <button type="button" id="addKeywordBtn" class="btn btn-outline-primary">
-                                                    Agregar
-                                                </button>
-                                            </div>
-                                            <div id="keywordsChips" class="mt-2 d-flex flex-wrap gap-2"></div>
-                                            <div id="keywordsHiddenContainer"></div>
+                                            <label for="keywords" class="form-label">Palabras clave (separadas por comas)</label>
+                                            <input type="text" name="keywords" id="keywords" class="form-control" placeholder="Ej: horario, ingenieria, semestre 1, seccion A" value="{{ old('keywords') }}">
                                             @error('keywords')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
-                                            @error('keywords.*')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
                                             <div class="form-text">
-                                                Ejemplos: “horario”, “ingenieria”, “semestre 1”, “seccion A”.
+                                                Ingresa las palabras clave separadas por comas. Se limpiarán y normalizarán automáticamente.
                                             </div>
                                         </div>
 
                                         <div class="text-center mt-4">
-                                            <button type="submit" class="btn btn.success">
+                                            <button type="submit" class="btn btn-success">
                                                 <i class="fas fa-upload me-2"></i> Procesar Imagen
                                             </button>
                                         </div>
@@ -214,72 +200,6 @@
             tab.show();
         }
 
-        // --- Keywords ---
-        const form = document.getElementById('imageUploadForm');
-        const input = document.getElementById('keywordInput');
-        const addBtn = document.getElementById('addKeywordBtn');
-        const chips = document.getElementById('keywordsChips');
-        const hiddenContainer = document.getElementById('keywordsHiddenContainer');
-
-        const keywordsSet = new Set(); // evita duplicados
-
-        function slugify(str) {
-            return str
-                .toLowerCase()
-                .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // quita tildes
-                .replace(/[^\w\s-]/g, ' ')
-                .trim()
-                .replace(/\s+/g, ' ');
-        }
-
-        function addKeyword(raw) {
-            const value = slugify(raw);
-            if (!value || value.length < 2) return;
-
-            // evita duplicados exactos
-            if (keywordsSet.has(value)) return;
-            keywordsSet.add(value);
-
-            // chip visual
-            const chip = document.createElement('span');
-            chip.className = 'badge bg-secondary d-inline-flex align-items-center';
-            chip.textContent = value + ' ';
-
-            const removeBtn = document.createElement('button');
-            removeBtn.type = 'button';
-            removeBtn.className = 'btn btn-sm btn-light ms-1 py-0 px-1';
-            removeBtn.setAttribute('aria-label', `Quitar ${value}`);
-            removeBtn.innerHTML = '&times;';
-            removeBtn.addEventListener('click', function () {
-                keywordsSet.delete(value);
-                chip.remove();
-                hiddenInput.remove();
-            });
-
-            chip.appendChild(removeBtn);
-            chips.appendChild(chip);
-
-            // input oculto para enviar keywords[]
-            const hiddenInput = document.createElement('input');
-            hiddenInput.type = 'hidden';
-            hiddenInput.name = 'keywords[]';
-            hiddenInput.value = value;
-            hiddenContainer.appendChild(hiddenInput);
-
-            input.value = '';
-            input.focus();
-        }
-
-        input.addEventListener('keydown', function (e) {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                addKeyword(input.value);
-            }
-        });
-
-        addBtn.addEventListener('click', function () {
-            addKeyword(input.value);
-        });
     });
 </script>
 @endsection

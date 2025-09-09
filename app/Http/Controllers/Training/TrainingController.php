@@ -27,6 +27,24 @@ class TrainingController extends Controller
         $training = new Training();
         $training->user_id = auth()->id();
         $training->type = $request->input('type', 'pdf');
+        // "keywords" llega como string separado por comas. Normalizamos y guardamos como array (json column)
+        $keywordsString = $request->input('keywords');
+        if (is_string($keywordsString) && trim($keywordsString) !== '') {
+            $normalized = collect(explode(',', $keywordsString))
+                ->map(fn($kw) => (string)$kw)
+                ->map(function ($kw) {
+                    $kw = \Illuminate\Support\Str::ascii($kw);
+                    $kw = mb_strtolower($kw);
+                    $kw = preg_replace('/[^\p{L}\p{N}\s\-]/u', ' ', $kw);
+                    $kw = trim(preg_replace('/\s+/', ' ', $kw));
+                    return $kw;
+                })
+                ->filter(fn($kw) => strlen($kw) >= 2)
+                ->unique()
+                ->values()
+                ->all();
+            $training->keywords = $normalized; // se serializa a JSON gracias al cast en el modelo
+        }
 
         if ($request->hasFile('file')) {
             $file = $request->file('file');

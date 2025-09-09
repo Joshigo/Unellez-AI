@@ -16,12 +16,10 @@ class GeminiAIClient
             throw new \Exception('GEMINI_API_KEY no está configurada en .env');
         }
 
-        // Leer y codificar la imagen
         $imageContent = file_get_contents($file->getRealPath());
         $base64Image = base64_encode($imageContent);
         $mimeType = $file->getMimeType();
 
-        // Construir payload según el tipo
         $prompt = self::getPromptByType($type);
         $prompt .= "\nNo me retornes la información con comillas, apóstrofes, o algo que me dañe el template string. ni con un texto que diga algo como 'Respuesta:
             ' o 'Respuesta:'. Solo dame la información que te pido. tampoco me des la información en formato JSON, dame la información de forma natural,
@@ -70,19 +68,19 @@ class GeminiAIClient
             case 'schedule':
                 return "Por favor analiza esta imagen de horario universitario y extrae:
                 1. Semestre (ej: 'II Semestre')
-                2. Carrera (ej: 'Ingeniería en Informática')
-                3. Periodo académico (ej: '2023-II-RG')
-                4. Listado de clases con:
-                   - Día de la semana
-                   - Hora de inicio y fin
-                   - Nombre de la materia
-                   - Nombre del profesor
-                   - Correo electrónico del profesor
-                   - Teléfono del profesor (si está disponible)
+                2. Periodo académico (ej: '2023-II-RG')
+                3. Dame toda la información completa y detallada de cada curso en el horario, incluyendo:
+                   - Código del curso
+                   - Nombre del curso
+                   - Créditos
+                   - Tipo (obligatorio, electivo, etc.)
+                   - Grupo
+                   - Horario (días y horas)
+                   - Aula
+                   - Profesor(es)
 
                 Organiza la información en un formato estructurado. Si algún dato no está disponible, indícalo como 'No disponible'.";
 
-                // Agregar más tipos según sea necesario
             default:
                 return "Por favor extrae el texto completo de esta imagen preservando el formato original.";
         }

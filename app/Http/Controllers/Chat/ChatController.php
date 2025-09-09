@@ -10,6 +10,8 @@ use App\Models\Response;
 use Illuminate\Support\Facades\Http;
 use App\Models\Training;
 use App\Models\User;
+use App\Utils\Utilities;
+use Illuminate\Support\Str;
 
 class ChatController extends Controller
 {
@@ -43,17 +45,90 @@ class ChatController extends Controller
             'content' => $request->content,
         ]);
 
-        $aiResponse = $this->getGeminiResponse($request->content, $programId);
+        // 1) Extraer keywords del prompt usando Utilities
+        $rawKeywords = Utilities::getKeywords($request->content);
 
-        Response::create([
-            'message_id' => $message->id,
-            'content' => $aiResponse,
-        ]);
+        // 2) Normalizar keywords como en TrainingController para mejorar el match
+        $normalizedKeywords = collect($rawKeywords)
+            ->filter(fn($kw) => is_string($kw))
+            ->map(function ($kw) {
+                $kw = Str::ascii($kw);
+                $kw = mb_strtolower($kw);
+                $kw = preg_replace('/[^\p{L}\p{N}\s\-]/u', ' ', $kw);
+                $kw = trim(preg_replace('/\s+/', ' ', $kw));
+                return $kw;
+            })
+            ->filter(fn($kw) => strlen($kw) >= 2)
+            ->unique()
+            ->values()
+            ->all();
+        // 3) Buscar el Training con más keywords coincidentes dentro del mismo programa
+        $userIds = User::where('program_id', $programId)->pluck('id');
+        $trainings = Training::whereIn('user_id', $userIds)->get();
 
-        return response()->json([
-            'chat_id' => $chat->id,
-            'ai_response' => $aiResponse
-        ]);
+        // Calcular coincidencias
+        $bestTraining = null;
+        $bestScore = 0;
+        if (!empty($normalizedKeywords)) {
+            foreach ($trainings as $trainingItem) {
+                $trainingKeywords = is_array($trainingItem->keywords) ? $trainingItem->keywords : [];
+                if (empty($trainingKeywords)) continue;
+                // normalizar por si hay datos antiguos sin normalizar totalmente
+                $trainingKeywordsNorm = collect($trainingKeywords)
+                    ->filter(fn($kw) => is_string($kw))
+                    ->map(function ($kw) {
+                        $kw = Str::ascii($kw);
+                        $kw = mb_strtolower($kw);
+                        $kw = preg_replace('/[^\p{L}\p{N}\s\-]/u', ' ', $kw);
+                        $kw = trim(preg_replace('/\s+/', ' ', $kw));
+                        return $kw;
+                    })
+                    ->filter(fn($kw) => strlen($kw) >= 2)
+                    ->unique()
+                    ->values()
+                    ->all();
+
+                $score = count(array_intersect($normalizedKeywords, $trainingKeywordsNorm));
+                if ($score > $bestScore) {
+                    $bestScore = $score;
+                    $bestTraining = $trainingItem;
+                }
+            }
+        }
+
+        $responsePayload = [];
+        if ($bestTraining && $bestScore > 0 && $bestTraining->file_path) {
+            // Coincidió con un training: devolvemos el archivo directamente
+            $responseContent = $bestTraining->file_path; // se guarda el file_path crudo
+            $responseType = $bestTraining->type === 'schedule' ? 'image' : 'pdf';
+            Response::create([
+                'message_id' => $message->id,
+                'content' => $responseContent,
+                'type' => $responseType,
+            ]);
+            $responsePayload = [
+                'chat_id' => $chat->id,
+                'type' => $responseType,
+                'content' => $responseContent,
+                'matched_keywords' => $bestScore,
+                'source_training_id' => $bestTraining->id,
+            ];
+        } else {
+            // Flujo actual: generar respuesta de texto con Gemini
+            $aiResponse = $this->getGeminiResponse($request->content, $programId);
+            Response::create([
+                'message_id' => $message->id,
+                'content' => $aiResponse,
+                'type' => 'text',
+            ]);
+            $responsePayload = [
+                'chat_id' => $chat->id,
+                'type' => 'text',
+                'content' => $aiResponse,
+            ];
+        }
+
+        return response()->json($responsePayload);
     }
 
     private function getGeminiResponse($prompt, $programId)
@@ -63,8 +138,7 @@ class ChatController extends Controller
         $userIds = User::where('program_id', $programId)->pluck('id');
         $learnFields = Training::whereIn('user_id', $userIds)->pluck('learn');
 
-        $context = "Responde en base a esta información, no te salgas de contexto, si me consigues información repetida, dame toda la información al respecto:\n" . $learnFields->implode("\n") . "\n\nPregunta del usuario: " . $prompt;
-        dd($context);
+        $context = "Responde en base a esta información, no te salgas de contexto, si consigues información repetida, agrúpala y explícala completa.\n" . $learnFields->implode("\n") . "\n\nPregunta del usuario: " . $prompt;
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
         ])->post("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={$apiKey}", [

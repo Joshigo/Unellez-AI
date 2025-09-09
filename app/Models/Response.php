@@ -12,6 +12,7 @@ class Response extends Model
     protected $fillable = [
         'message_id',
         'content',
+        'type',
     ];
 
     public function message()
