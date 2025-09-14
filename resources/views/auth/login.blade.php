@@ -875,16 +875,22 @@
                 ==========================================-->
                 <form action="{{ url('/login') }}" method="post" id="formLogin" class="formulario active">
                     @csrf
-                    <div class="error-text">
-                        <p>aqui los errores del formualrio</p>
+                    <div class="error-text @if($errors->any() || session('error')) active @endif">
+                        @if($errors->any())
+                            @foreach($errors->all() as $err)
+                                <p>{{ $err }}</p>
+                            @endforeach
+                        @endif
+                        @if(session('error'))
+                            <p>{{ session('error') }}</p>
+                        @endif
                     </div>
-
-                    <input type="email" placeholder="Email" class="input-text" id="email" name="email" autocomplete="off">
+                    <input type="email" placeholder="Email" class="input-text @error('email') input-error @enderror"
+                           id="email" name="email" value="{{ old('email') }}">
                     <div class="grupo-input">
-
-                        <input type="password" placeholder="Contraseña" id="password" name="password" class="input-text clave">
+                        <input type="password" placeholder="Contraseña" id="password" name="password"
+                               class="input-text clave @error('password') input-error @enderror">
                         <button type="button" class="icono fas fa-eye mostrarClave"></button>
-
                     </div>
                     <a href="{{route('password.forgot')}}" class="link">¿Olvidaste tu contraseña?</a>
                     <button class="btn" id="btnLogin" type="submit">Iniciar sesión</button>
@@ -900,46 +906,38 @@
                 <!--========================================
                     Formulario de Registro
                 ==========================================-->
-                <form action="{{ url('/register') }}" method="post" id="formRegistro" class="formulario ">
+                <form action="{{ url('/register') }}" method="post" id="formRegistro" class="formulario">
                     @csrf
-                    <div class="error-text ">
-
-                    </div>
-                    <input type="text" placeholder="Nombre completo" class="input-text" id="name" name="name" autocomplete="off">
-                    <input type="text" placeholder="Cédula" class="input-text" id="ci" name="ci" autocomplete="off">
+                    <div class="error-text" id="registro-errors"></div>
+                    <input type="text" placeholder="Nombre completo" class="input-text" id="name_register" name="name" value="{{ old('name') }}">
+                    <input type="text" placeholder="Cédula" class="input-text" id="ci_register" name="ci" value="{{ old('ci') }}">
                     <select name="program_id" id="program_id" class="input-text">
                         <option value="">Seleccione un programa</option>
                         @foreach($programs as $program)
-                            <option value="{{ $program->id }}">{{ $program->name }}</option>
+                            <option value="{{ $program->id }}" @selected(old('program_id')==$program->id)>{{ $program->name }}</option>
                         @endforeach
                     </select>
-                    <input type="email" placeholder="Email" class="input-text" name="email" id="email" autocomplete="off">
+                    <input type="email" placeholder="Email" class="input-text" name="email" id="email_register" value="{{ old('email') }}">
                     <div class="grupo-input">
-                        <input type="password" placeholder="Password" name="password" class="input-text clave">
-                        <button type="submit" class="icono fas fa-eye mostrarClave"></button>
+                        <input type="password" placeholder="Password" name="password" id="password_register" class="input-text clave">
+                        <button type="button" class="icono fas fa-eye mostrarClave"></button>
                     </div>
 
-
-                    <!-- Checkbox Personalizados -->
                     <label class="contenedor-cbx animate">
-                        I would like to receive notifications about products
-                        <input type="checkbox" name="cbx_notificaciones" checked>
+                        Deseo recibir notificaciones
+                        <input type="checkbox" name="cbx_notificaciones" value="1" {{ old('cbx_notificaciones', '1') ? 'checked' : '' }}>
                         <span class="cbx-marca"></span>
                     </label>
 
                     <label class="contenedor-cbx animate">
-                        I have read and accept the
-                        <a href="https://my.emiassistant.com/terms" class="link">Terms and Conditions</a>
-                        <a href="https://my.emiassistant.com/privacy-policy" class="link">and Privacy Policy</a>
-
-                        <input type="checkbox" name="cbx_terminos">
+                        Acepto los
+                        <a href="https://my.emiassistant.com/terms" class="link" target="_blank">Términos</a> y
+                        <a href="https://my.emiassistant.com/privacy-policy" class="link" target="_blank">Privacidad</a>
+                        <input type="checkbox" name="cbx_terminos" value="1" {{ old('cbx_terminos') ? 'checked' : '' }}>
                         <span class="cbx-marca"></span>
-
                     </label>
 
-                    <button class="btn" id="btnRegistro" type="button">Create Account</button>
-
-
+                    <button class="btn" id="btnRegistro" type="submit">Crear Cuenta</button>
                 </form>
 
 
@@ -950,6 +948,39 @@
     </div>
 
     <script>
+        const formRegistro = document.getElementById('formRegistro');
+    const formLogin = document.getElementById('formLogin');
+
+    if (document.getElementById('btnRegistro')) {
+        document.getElementById('btnRegistro').addEventListener('click', function (e) {
+            const box = document.getElementById('registro-errors');
+            box.innerHTML = '';
+            box.classList.remove('active');
+
+            const name = document.getElementById('name_register').value.trim();
+            const ci = document.getElementById('ci_register').value.trim();
+            const email = document.getElementById('email_register').value.trim();
+            const pass = document.getElementById('password_register').value.trim();
+            const program = document.getElementById('program_id').value;
+            const terminos = formRegistro.cbx_terminos.checked;
+
+            const errors = [];
+            if (!name) errors.push('El nombre es obligatorio.');
+            if (!ci) errors.push('La cédula es obligatoria.');
+            if (!program) errors.push('Seleccione un programa.');
+            if (!email) errors.push('El correo es obligatorio.');
+            if (!pass) errors.push('La contraseña es obligatoria.');
+            if (pass && pass.length < 8) errors.push('La contraseña debe tener mínimo 8 caracteres.');
+            if (!terminos) errors.push('Debe aceptar los términos.');
+
+            if (errors.length) {
+                e.preventDefault();
+                box.classList.add('active');
+                box.innerHTML = errors.map(e => '<p>' + e + '</p>').join('');
+                return;
+            }
+        });
+    }
 
         const tabLink = document.querySelectorAll('.tab-link');
         const formularios = document.querySelectorAll('.formulario');

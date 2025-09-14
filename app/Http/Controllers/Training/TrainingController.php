@@ -60,9 +60,6 @@ class TrainingController extends Controller
                     $pdf = $parser->parseFile(storage_path('app/public/' . $filePath));
                     $text = $pdf->getText();
                     $training->learn = Str::limit($text, 65535);
-                } elseif (Str::startsWith($mimeType, 'image/')) {
-                    $text = GeminiAIClient::getInfoByImage($file, $training->type);
-                    $training->learn = Str::limit($text, 65535);
                 }
             } catch (\Exception $e) {
                 Log::error('Error procesando archivo: ' . $e->getMessage());

@@ -30,9 +30,7 @@ Route::get('/', [AuthController::class, 'index'])->name('indexLogin');
 //     return view('auth.login');
 // })->name('logins');
 
-Route::get('/login', function () {
-    return view('auth.login');
-})->name('logins');
+Route::get('/login', [AuthController::class, 'index'])->name('login.form');
 
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/register', [AuthController::class, 'register']);
@@ -43,6 +41,8 @@ Route::get('/forgotPassword', function () {
 
 Route::post('/verify', [AuthController::class, 'verify'])->name('user.verify');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
+Route::post('/send-reset-code', [AuthController::class, 'sendResetCode'])->name('send.reset.code');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/chats/create', [ChatController::class, 'create'])->name('chats.create');
@@ -51,8 +51,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::get('/success', [AuthController::class, 'success'])->name('success');
-    Route::post('/send-code', [AuthController::class, 'resendVerificationCode'])->name('resend.code');
     Route::get('/verify-email', [AuthController::class, 'showVerifyForm'])->name('user.verify.page');
+    Route::post('/send-code', [AuthController::class, 'resendVerificationCode'])->name('resend.code');
     Route::resource('dashboard', DashboardController::class);
     Route::get('/chats/{chat}', [ChatController::class, 'show'])->name('chats.show');
 });

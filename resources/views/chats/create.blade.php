@@ -85,6 +85,7 @@
                 return;
             }
             const type = data.type;
+            console.log('Tipo de respuesta AI:', type);
             const content = data.content || '';
             if (type === 'text') {
                 const html = escapeHtml(content).replace(/\n/g, '<br>');

@@ -32,7 +32,7 @@ class UserSeeder extends Seeder
         ]);
         User::create([
             'role_id' => 3,
-            'program_id' => 1,
+            'program_id' => 5,
             'name' => 'Trainer',
             'ci' => '123456780',
             'email' => 'trainer@example.com',

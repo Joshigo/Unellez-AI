@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('trainings', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->text('learn');
+            $table->text('learn')->nullable();
             $table->json('keywords')->nullable();
             $table->string('name');
             $table->string('file_path')->nullable();
