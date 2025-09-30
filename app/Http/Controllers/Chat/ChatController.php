@@ -136,9 +136,21 @@ class ChatController extends Controller
         $apiKey = env('GEMINI_API_KEY');
 
         $userIds = User::where('program_id', $programId)->pluck('id');
-        $learnFields = Training::whereIn('user_id', $userIds)->pluck('learn');
+        $learnFields = Training::whereIn('user_id', $userIds)
+            ->orWhereIn('user_id', User::whereIn('role_id', [1, 2])->pluck('id'))
+            ->pluck('learn');
 
-        $context = "Responde en base a esta información, no te salgas de contexto, si consigues información repetida, agrúpala y explícala completa.\n" . $learnFields->implode("\n") . "\n\nPregunta del usuario: " . $prompt;
+        $context = "Eres Unellez AI, un asistente virtual amigable y respetuoso. Tu tarea es responder
+        preguntas únicamente usando la información proporcionada a continuación, que corresponde al contexto
+        asignado del usuario. No inventes datos, no respondas fuera de este contexto y agrupa información
+        repetida para dar una explicación clara y completa. Si no encuentras la respuesta en la información dada,
+        indícalo amablemente.
+
+        Contexto de referencia:
+        " . $learnFields->implode("\n") . "
+
+        Pregunta del usuario:
+        " . $prompt;
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
         ])->post("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={$apiKey}", [

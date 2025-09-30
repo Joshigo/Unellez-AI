@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Chat\ChatController;
+use App\Http\Controllers\User\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,4 +23,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::middleware(['auth'])->group(function () {
     Route::post('/chats', [ChatController::class, 'store'])->name('chats.initChat');
+    Route::get('/users/search', [UserController::class, 'search'])->name('users.search');
 });

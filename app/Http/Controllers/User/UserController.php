@@ -93,6 +93,41 @@ class UserController extends Controller
         return redirect()->route('users.index')->with('success', 'Usuario actualizado con éxito.');
     }
 
+    public function search(Request $request)
+    {
+        $request->validate([
+            'query' => 'required|string|max:255',
+        ]);
+
+        $query = $request->input('query');
+
+        $users = User::where('name', 'LIKE', "%{$query}%")
+            ->orWhere('email', 'LIKE', "%{$query}%")
+            ->orWhereHas('program', function ($q) use ($query) {
+                $q->where('name', 'LIKE', "%{$query}%");
+            })
+            ->orderBy('name', 'asc')
+            ->paginate(5)
+            ->appends(['query' => $query]);
+
+        $roles = Role::whereNotIn('id', [1, 2])->get()->map(function ($role) {
+            if ($role->name === 'trainer') {
+                $role->name = 'Entrenador';
+            } elseif ($role->name === 'user') {
+                $role->name = 'Usuario';
+            }
+            return $role;
+        });
+
+        if ($request->ajax()) {
+            return response()->json($users);
+        }
+
+        $programs = Program::all();
+
+        return view('user.index', compact('users', 'roles', 'programs', 'query'));
+    }
+
     public function destroy($id)
     {
         $user = User::findOrFail($id);

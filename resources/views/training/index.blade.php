@@ -126,24 +126,46 @@
                                 @foreach($trainings as $training)
                                     <tr>
                                         <td>{{ $training->name }}</td>
-                                        <td>{{ $training->type }}</td>
-                                        <td>{{ implode(', ', (array) $training->keywords) }}</td>
+                                        <td>
+                                            @if($training->type === 'schedule')
+                                                Horarios
+                                            @elseif($training->type === 'pdf')
+                                                PDF
+                                            @else
+                                                {{ strtoupper($training->type) }}
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if($training->type === 'pdf')
+                                                No aplica
+                                            @else
+                                                {{ is_array($training->keywords) ? implode(', ', $training->keywords) : $training->keywords }}
+                                            @endif
+                                        </td>
                                         <td class="text-center">
-                                            <button type="button" class="btn btn-primary me-2"
+                                            <!-- Botón de vista previa -->
+                                            <button type="button" class="btn btn-info me-2"
                                                     data-bs-toggle="modal"
-                                                    data-bs-target="#pdfModal{{ $training->id }}">
+                                                    data-bs-target="#pdfModal{{ $training->id }}"
+                                                    title="Vista previa">
                                                 <i class='bx bx-show'></i>
                                             </button>
+                                            <!-- Botón de editar keywords solo si no es PDF -->
+                                            @if($training->type !== 'pdf')
                                             <button type="button" class="btn btn-warning me-2"
                                                     data-bs-toggle="modal"
                                                     data-bs-target="#editKeywordsModal{{ $training->id }}"
                                                     title="Editar Palabras Clave">
                                                 <i class='bx bx-edit'></i>
                                             </button>
-                                            <form action="{{ route('trainings.destroy', $training->id) }}" method="POST" class="d-inline">
+                                            @endif
+                                            <!-- Botón de eliminar -->
+                                            <form action="{{ route('trainings.destroy', $training->id) }}" method="POST" style="display:inline;">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-delete" title="Delete">
+                                                <button type="submit" class="btn btn-danger"
+                                                        onclick="return confirm('¿Está seguro de eliminar este entrenamiento?')"
+                                                        title="Eliminar">
                                                     <i class='bx bx-trash'></i>
                                                 </button>
                                             </form>
