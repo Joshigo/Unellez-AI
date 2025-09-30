@@ -118,6 +118,7 @@
                                 <tr>
                                     <th class="text-uppercase">Nombre</th>
                                     <th class="text-uppercase">Tipo</th>
+                                    <th class="text-uppercase">Palabras Clave</th>
                                     <th class="text-uppercase">Acción</th>
                                 </tr>
                             </thead>
@@ -126,11 +127,18 @@
                                     <tr>
                                         <td>{{ $training->name }}</td>
                                         <td>{{ $training->type }}</td>
+                                        <td>{{ implode(', ', (array) $training->keywords) }}</td>
                                         <td class="text-center">
                                             <button type="button" class="btn btn-primary me-2"
                                                     data-bs-toggle="modal"
                                                     data-bs-target="#pdfModal{{ $training->id }}">
                                                 <i class='bx bx-show'></i>
+                                            </button>
+                                            <button type="button" class="btn btn-warning me-2"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#editKeywordsModal{{ $training->id }}"
+                                                    title="Editar Palabras Clave">
+                                                <i class='bx bx-edit'></i>
                                             </button>
                                             <form action="{{ route('trainings.destroy', $training->id) }}" method="POST" class="d-inline">
                                                 @csrf
@@ -174,6 +182,34 @@
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
             </div>
         </div>
+    </div>
+</div>
+@endforeach
+@foreach($trainings as $training)
+<div class="modal fade" id="editKeywordsModal{{ $training->id }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <form action="{{ route('trainings.updateKeywords', $training->id) }}" method="POST" class="modal-content">
+            @csrf
+            <div class="modal-header">
+                <h5 class="modal-title">Editar Palabras Clave: {{ $training->name }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <label for="keywords{{ $training->id }}" class="form-label">Palabras clave (separadas por comas)</label>
+                <input type="text"
+                       name="keywords"
+                       id="keywords{{ $training->id }}"
+                       class="form-control"
+                       value="{{ is_array($training->keywords) ? implode(', ', $training->keywords) : $training->keywords }}">
+                <div class="form-text">
+                    Ingresa las palabras clave separadas por comas.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-success">Guardar</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+        </form>
     </div>
 </div>
 @endforeach

@@ -72,6 +72,39 @@ class TrainingController extends Controller
         return redirect()->route('trainings.index')->with('success', 'Entrenamiento creado satisfactoriamente.');
     }
 
+    public function updateKeywords(Request $request, $id)
+    {
+        $training = Training::findOrFail($id);
+        $keywordsString = $request->input('keywords', '');
+        if (is_string($keywordsString) && trim($keywordsString) !== '') {
+            $normalized = collect(explode(',', $keywordsString))
+                ->map(fn($kw) => (string)$kw)
+                ->map(function ($kw) {
+                    $kw = \Illuminate\Support\Str::ascii($kw);
+                    $kw = mb_strtolower($kw);
+                    $kw = preg_replace('/[^\p{L}\p{N}\s\-]/u', ' ', $kw);
+                    $kw = trim(preg_replace('/\s+/', ' ', $kw));
+                    return $kw;
+                })
+                ->filter(fn($kw) => strlen($kw) >= 2)
+                ->unique()
+                ->values()
+                ->all();
+            $training->keywords = $normalized;
+        } else {
+            $training->keywords = [];
+        }
+        $training->save();
+
+        return redirect()->back()->with('success', 'Palabras clave actualizadas con éxito.');
+    }
+
+    public function show($id)
+    {
+        $training = Training::findOrFail($id);
+        return view('training.show', compact('training'));
+    }
+
     public function destroy($id)
     {
         $training = Training::findOrFail($id);

@@ -55,6 +55,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/send-code', [AuthController::class, 'resendVerificationCode'])->name('resend.code');
     Route::resource('dashboard', DashboardController::class);
     Route::get('/chats/{chat}', [ChatController::class, 'show'])->name('chats.show');
+    Route::post('trainings/{id}/update-keywords', [TrainingController::class, 'updateKeywords'])->name('trainings.updateKeywords');
 });
 
 Route::get('/auth-verifyEmail', function () {
