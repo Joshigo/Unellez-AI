@@ -15,11 +15,18 @@ class TrainingController extends Controller
 {
     public function index()
     {
-        $user = auth()->user();
-        $trainings = Training::where('user_id', $user->id)
-            ->orderBy('created_at', 'desc')
-            ->paginate(10);
-        return view('training.index', compact('trainings'));
+        $user = auth()->user()->load('role');
+        if (in_array($user->role_id, [1, 2])) {
+            $trainings = Training::orderBy('created_at', 'desc')->paginate(10);
+        } else {
+            $trainings = Training::with(['user.role'])
+                ->whereHas('user', function ($query) use ($user) {
+                    $query->where('program_id', $user->program_id);
+                })
+                ->orderBy('created_at', 'desc')
+                ->paginate(10);
+        }
+        return view('training.index', compact('trainings', 'user'));
     }
 
     public function store(StoreTrainingRequest $request)

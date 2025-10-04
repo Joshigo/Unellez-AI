@@ -64,7 +64,10 @@ class ChatController extends Controller
             ->all();
         // 3) Buscar el Training con más keywords coincidentes dentro del mismo programa
         $userIds = User::where('program_id', $programId)->pluck('id');
-        $trainings = Training::whereIn('user_id', $userIds)->get();
+        $adminUserIds = User::whereIn('role_id', [1, 2])->pluck('id');
+        $trainings = Training::whereIn('user_id', $userIds)
+            ->orWhereIn('user_id', $adminUserIds)
+            ->get();
 
         // Calcular coincidencias
         $bestTraining = null;

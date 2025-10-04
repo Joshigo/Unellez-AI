@@ -74,6 +74,7 @@
                                             <label for="type" class="form-label">Tipo de imagen</label>
                                             <select class="form-select" id="type" name="type" required>
                                                 <option value="schedule">Horario Universitario</option>
+                                                <option value="calendars">Calendarios</option>
                                                 <!-- Agregar más opciones aquí en el futuro -->
                                             </select>
                                             @error('type')
@@ -150,25 +151,33 @@
                                                     title="Vista previa">
                                                 <i class='bx bx-show'></i>
                                             </button>
-                                            <!-- Botón de editar keywords solo si no es PDF -->
-                                            @if($training->type !== 'pdf')
-                                            <button type="button" class="btn btn-warning me-2"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#editKeywordsModal{{ $training->id }}"
-                                                    title="Editar Palabras Clave">
-                                                <i class='bx bx-edit'></i>
-                                            </button>
-                                            @endif
-                                            <!-- Botón de eliminar -->
-                                            <form action="{{ route('trainings.destroy', $training->id) }}" method="POST" style="display:inline;">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger"
-                                                        onclick="return confirm('¿Está seguro de eliminar este entrenamiento?')"
-                                                        title="Eliminar">
-                                                    <i class='bx bx-trash'></i>
+                                            <!-- Validación de roles para mostrar editar/eliminar -->
+                                            @php
+                                                $sessionRoleId = $user->role->id;
+                                                $trainingRoleId = $training->user->role->id;
+                                                $restricted = ($sessionRoleId == 3) && ($trainingRoleId == 2 || $trainingRoleId == 1);
+                                            @endphp
+                                            @if(!$restricted)
+                                                <!-- Botón de editar keywords solo si no es PDF -->
+                                                @if($training->type !== 'pdf')
+                                                <button type="button" class="btn btn-warning me-2"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#editKeywordsModal{{ $training->id }}"
+                                                        title="Editar Palabras Clave">
+                                                    <i class='bx bx-edit'></i>
                                                 </button>
-                                            </form>
+                                                @endif
+                                                <!-- Botón de eliminar -->
+                                                <form action="{{ route('trainings.destroy', $training->id) }}" method="POST" style="display:inline;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger"
+                                                            onclick="return confirm('¿Está seguro de eliminar este entrenamiento?')"
+                                                            title="Eliminar">
+                                                        <i class='bx bx-trash'></i>
+                                                    </button>
+                                                </form>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach

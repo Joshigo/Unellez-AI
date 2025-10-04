@@ -20,7 +20,7 @@ return new class extends Migration
             $table->json('keywords')->nullable();
             $table->string('name');
             $table->string('file_path')->nullable();
-            $table->enum('type', ['schedule', 'pdf']);
+            $table->enum('type', ['schedule', 'pdf', 'calendar']);
             $table->timestamps();
         });
     }

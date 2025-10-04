@@ -16,26 +16,18 @@
         @if(auth()->user() && (auth()->user()->role_id === 1 || auth()->user()->role_id === 2))
         <li class="menu-item ">
             <a href="{{ route('users.index') }}" class="menu-link">
-                <i class="bx bx-user-circle me-2"></i>
-                <div data-i18n="Training">Usuarios</div>
+                <i class="bx bx-cog me-2"></i>
+                <div data-i18n="Fluid">Configuraciones</div>
             </a>
         </li>
         @endif
-        @if(auth()->user() && auth()->user()->role_id === 2)
-        <li class="menu-item">
-                <a href="#" class="menu-link">
-                    <i class="bx bx-book-open me-2"></i>
-                    <div data-i18n="Fluid">Programas</div>
-                </a>
-        </li>
-        @endif
 
-        @if(auth()->user() && auth()->user()->role_id === 3)
+        @if(auth()->user() && (auth()->user()->role_id === 1 || auth()->user()->role_id === 2 || auth()->user()->role_id === 3))
             <li class="menu-item">
-                <a href="{{ route('trainings.index') }}" class="menu-link">
-                    <i class="bx bx-brain me-2"></i>
-                    <div data-i18n="Fluid">Entrenar</div>
-                </a>
+            <a href="{{ route('trainings.index') }}" class="menu-link">
+                <i class="bx bx-brain me-2"></i>
+                <div data-i18n="Fluid">Entrenar</div>
+            </a>
             </li>
         @endif
 
