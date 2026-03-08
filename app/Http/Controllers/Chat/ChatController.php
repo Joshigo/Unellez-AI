@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Chat;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Chat;
+use App\Models\Logger;
 use App\Models\Message;
 use App\Models\Response;
 use Illuminate\Support\Facades\Http;
@@ -12,12 +13,43 @@ use App\Models\Training;
 use App\Models\User;
 use App\Utils\Utilities;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 
 class ChatController extends Controller
 {
     public function create()
     {
         return view('chats.create');
+    }
+
+    public function index()
+    {
+        $user = auth()->user();
+        $users = collect();
+
+        if (in_array($user->role_id, [1, 2])) {
+            // Admin: All users
+            $users = User::whereNotIn('id', [1, 2])
+                ->with(['program', 'chats' => function ($query) {
+                    $query->latest();
+                }])->get();
+        } elseif ($user->role_id === 3) {
+            // Trainer: Users in same program
+            $users = User::where('program_id', $user->program_id)
+                ->with(['program', 'chats' => function ($query) {
+                    $query->latest();
+                }])
+                ->get();
+        } else {
+            // Regular user: Only themselves
+            $users = User::where('id', $user->id)
+                ->with(['program', 'chats' => function ($query) {
+                    $query->latest();
+                }])
+                ->get();
+        }
+
+        return view('chats.index', compact('users'));
     }
 
     public function store(Request $request)
@@ -118,7 +150,7 @@ class ChatController extends Controller
             ];
         } else {
             // Flujo actual: generar respuesta de texto con Gemini
-            $aiResponse = $this->getGeminiResponse($request->content, $programId);
+            $aiResponse = $this->getAIResponse($request->content, $programId);
             Response::create([
                 'message_id' => $message->id,
                 'content' => $aiResponse,
@@ -130,13 +162,13 @@ class ChatController extends Controller
                 'content' => $aiResponse,
             ];
         }
-
+        // dd($responsePayload);
         return response()->json($responsePayload);
     }
 
-    private function getGeminiResponse($prompt, $programId)
+    private function getAIResponse($prompt, $programId)
     {
-        $apiKey = env('GEMINI_API_KEY');
+        $apiKey = env('DEEPSEEK_API_KEY');
 
         $userIds = User::where('program_id', $programId)->pluck('id');
         $learnFields = Training::whereIn('user_id', $userIds)
@@ -154,26 +186,44 @@ class ChatController extends Controller
 
         Pregunta del usuario:
         " . $prompt;
+
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
-        ])->post("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={$apiKey}", [
-            'contents' => [
+            'Authorization' => 'Bearer ' . $apiKey,
+        ])->post("https://api.deepseek.com/chat/completions", [
+            'model' => 'deepseek-chat',
+            'messages' => [
                 [
-                    'parts' => [
-                        ['text' => $context]
-                    ]
+                    'role' => 'user',
+                    'content' => $context
                 ]
             ]
         ]);
 
+        Log::info('DeepSeek API Response: ' . $response->body());
+
         $responseData = $response->json();
 
-        return $responseData['candidates'][0]['content']['parts'][0]['text'] ?? 'Lo siento, no pude generar una respuesta.';
+        Logger::create([
+            'content' => $responseData,
+            'code' => $response->status(),
+        ]);
+
+        return $responseData['choices'][0]['message']['content'] ?? 'Lo siento, no pude generar una respuesta.';
     }
 
     public function show(Chat $chat)
     {
-        if ($chat->user_id !== auth()->id()) {
+        $user = auth()->user();
+
+        // Load chat owner to check program_id if needed
+        $chatOwner = $chat->user;
+
+        $isOwner = $chat->user_id === $user->id;
+        $isAdmin = in_array($user->role_id, [1, 2]);
+        $isTrainer = $user->role_id === 3 && $chatOwner->program_id === $user->program_id;
+
+        if (!$isOwner && !$isAdmin && !$isTrainer) {
             abort(403, 'No tienes permiso para acceder a este chat');
         }
 

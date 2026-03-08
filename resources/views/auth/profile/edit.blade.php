@@ -7,7 +7,7 @@
         <div class="col-md-8 offset-md-2 mt-5">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Edit Profile</h3>
+                    <h3 class="card-title">Editar perfil</h3>
                 </div>
                 <div class="card-body">
                     @if (session('success'))
@@ -21,10 +21,13 @@
                         @method('PUT')
 
                         <div class="form-group">
-                            <label for="name">Name</label>
+                            <label for="name">Nombre</label>
                             <input type="text" name="name" class="form-control" value="{{ old('name', $user->name) }}" required>
                         </div>
-
+                        <div class="form-group mb-2">
+                                    <label for="edit_program">Programa</label>
+                                    <input type="text" name="program" id="edit_program" class="form-control" value="{{ old('program', $user->program->name ?? '') }}" readonly>
+                                </div>
                         <div class="form-group">
                             <label for="email">Email</label>
                             <input type="email" name="email" class="form-control" value="{{ old('email', $user->email) }}" required>
@@ -32,17 +35,17 @@
 
                         <div class="row">
                             <div class="form-group col-md-6">
-                                <label for="password">Password (leave blank to keep current)</label>
+                                <label for="password">Contraseña (Deja en blanco si no deseas cambiarla)</label>
                                 <input type="password" name="password" class="form-control">
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="password_confirmation">Confirm Password</label>
+                                <label for="password_confirmation">Confirmar Contraseña</label>
                                 <input type="password" name="password_confirmation" class="form-control">
                             </div>
                         </div>
 
 
-                        <button type="submit" class="btn btn-primary mt-4">Update Profile</button>
+                        <button type="submit" class="btn btn-primary mt-4">Actualizar Perfil</button>
                     </form>
                 </div>
             </div>
@@ -74,6 +77,10 @@
                                 <div class="form-group mb-2">
                                     <label for="edit_name">Nombre</label>
                                     <input type="text" name="name" id="edit_name" class="form-control">
+                                </div>
+                                <div class="form-group mb-2">
+                                    <label for="edit_program">Programa</label>
+                                    <input type="text" name="program" id="edit_program" class="form-control" value="{{ old('program', $user->program->name ?? '') }}" readonly>
                                 </div>
                                 <div class="form-group mb-2">
                                     <label for="edit_ci">CI</label>

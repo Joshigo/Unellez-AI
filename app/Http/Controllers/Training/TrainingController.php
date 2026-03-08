@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Training;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTrainingRequest;
+use App\Models\Logger;
 use App\Models\Training;
 use App\Utils\GeminiAIClient;
 use Illuminate\Http\Request;
@@ -70,6 +71,10 @@ class TrainingController extends Controller
                 }
             } catch (\Exception $e) {
                 Log::error('Error procesando archivo: ' . $e->getMessage());
+                Logger::create([
+                    'content' => 'Error procesando archivo para entrenamiento ID ' . $training->id . ': ' . $e->getMessage(),
+                    'code' => 'TRAINING_FILE_PROCESSING_ERROR',
+                ]);
                 $training->learn = 'Error al procesar el archivo';
             }
         }

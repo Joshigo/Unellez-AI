@@ -31,6 +31,15 @@
             </li>
         @endif
 
+        @if(auth()->user() && (auth()->user()->role_id === 1 || auth()->user()->role_id === 2 || auth()->user()->role_id === 3))
+            <li class="menu-item">
+                <a href="{{ route('chats.index') }}" class="menu-link">
+                    <i class="bx bx-chat me-2"></i>
+                    <div data-i18n="Fluid">Chats</div>
+                </a>
+            </li>
+        @endif
+
 
         {{--  @if(auth()->user() && auth()->user()->role_id === 3)  --}}
             <li class="menu-item">

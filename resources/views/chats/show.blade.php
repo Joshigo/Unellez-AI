@@ -10,7 +10,7 @@
             </a>
         </div>
         <div class="card-body">
-            <div id="chat-messages" class="mb-3" style="min-height: 300px; max-height: 500px; overflow-y: auto;">
+            <div id="chat-messages" class="mb-3" style="flex: 1; overflow-y: auto;">
                 <!-- Mostrar mensajes existentes -->
                 @foreach($chat->messages as $message)
                     <div class="mb-2">
@@ -24,7 +24,11 @@
                             <div class="text-start">
                                 <span class="badge bg-success">Asistente</span>
                                 <div class="mt-1 p-2 rounded bg-light">
-                                    {{ $message->response->content }}
+                                    @if($message->response->type == 'image')
+                                        <img src="{{ asset('storage/' . $message->response->content) }}" class="img-fluid rounded" alt="Respuesta imagen">
+                                    @else
+                                        {{ $message->response->content }}
+                                    @endif
                                 </div>
                             </div>
                         @endif
@@ -59,7 +63,7 @@
             // Añadir mensaje del usuario al chat
             addMessageToChat('user', message);
             input.value = '';
-
+            console.log('Enviando mensaje:', message);
             try {
                 const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
@@ -81,10 +85,10 @@
                 }
 
                 const data = await response.json();
-
+                console.log('data', data);
                 // Mostrar respuesta de Gemini
-                if (data.ai_response) {
-                    addMessageToChat('ai', data.ai_response);
+                if (data.content) {
+                    addMessageToChat('ai', data.content);
                 }
             } catch (error) {
                 console.error('Error:', error);

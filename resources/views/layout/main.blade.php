@@ -218,6 +218,39 @@
       background-color: #0056b3;
   }
 
+        /* Fix layout height */
+        .layout-page {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content-wrapper > .container,
+        .content-wrapper > .container-fluid,
+        .content-wrapper > .container-xxl {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content-wrapper > .container > .card {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content-wrapper > .container > .card > .card-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
     </style>
 </head>
 
@@ -240,13 +273,8 @@
                 @include('layout.includes._nav')
                 <!-- / Navbar -->
                 <!-- Content wrapper -->
-                @yield('content')
-                <div class="content-wrapper">
-
-                    <!-- Footer -->
-                    <!-- / Footer -->
-
-                    <div class="content-backdrop fade"></div>
+                <div class="content-wrapper" style="flex: 1; display: flex; flex-direction: column;">
+                    @yield('content')
                 </div>
 
                 @include('layout.includes.footer')

@@ -4,7 +4,7 @@
 <div class="container py-4">
     <div class="card">
         <div class="card-body">
-            <div id="chat-messages" class="mb-3" style="min-height: 300px; max-height: 500px; overflow-y: auto;">
+            <div id="chat-messages" class="mb-3" style="flex: 1; overflow-y: auto;">
                 <!-- Mensajes aparecerán aquí -->
             </div>
             <form id="message-form" onsubmit="return false;">
@@ -78,7 +78,6 @@
                 addMessageToChat('ai', 'Error: ' + escapeHtml(err.message));
             }
         }
-
         function renderAIResponse(data) {
             if (data.ai_response && !data.type) {
                 addMessageToChat('ai', escapeHtml(data.ai_response).replace(/\n/g, '<br>'));

@@ -21,7 +21,7 @@
                 <a class="nav-link d-flex align-items-center" href="javascript:void(0);"
                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     <i class="bx bx-power-off me-1"></i>
-                    <span class="align-middle d-none d-sm-inline">Log Out</span>
+                    <span class="align-middle d-none d-sm-inline">Cerrar Sesión</span>
                 </a>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     @csrf

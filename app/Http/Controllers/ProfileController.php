@@ -9,7 +9,7 @@ class ProfileController extends Controller
 {
     public function edit()
     {
-        $user = Auth::user();
+        $user = Auth::user()->load('program');
         return view('auth.profile.edit', compact('user'));
     }
 

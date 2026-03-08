@@ -838,8 +838,8 @@
                         <img src="/logo_blue.png" alt="Unellez AI Logo">
                     </div>
                     <section class="header-container-text">
-                        <h1 class="header-text title-color">Título</h1>
-                        <h2 class="header-text normal-color">Subtítulo</h2>
+                        <h1 class="header-text title-color">UnellezAI</h1>
+                        <h2 class="header-text normal-color">Tu agente con inteligencia artificial de la universidad</h2>
                     </section>
                 </header>
 

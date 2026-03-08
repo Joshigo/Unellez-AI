@@ -20,15 +20,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('auth.login');
-// });
-
 Route::get('/', [AuthController::class, 'index'])->name('indexLogin');
-
-// Route::post('/login', function () {
-//     return view('auth.login');
-// })->name('logins');
 
 Route::get('/login', [AuthController::class, 'index'])->name('login.form');
 
@@ -46,6 +38,7 @@ Route::post('/send-reset-code', [AuthController::class, 'sendResetCode'])->name(
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/chats/create', [ChatController::class, 'create'])->name('chats.create');
+    Route::get('/chats', [ChatController::class, 'index'])->name('chats.index')->middleware(['role:1,2,3']);
     Route::resource('users', UserController::class)->middleware(['auth', 'role:1,2']);
     Route::resource('trainings', TrainingController::class, ['except' => ['show']])->middleware(['auth', 'role:1,2,3']);
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
