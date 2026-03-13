@@ -216,7 +216,6 @@ class ChatController extends Controller
     {
         $user = auth()->user();
 
-        // Load chat owner to check program_id if needed
         $chatOwner = $chat->user;
 
         $isOwner = $chat->user_id === $user->id;

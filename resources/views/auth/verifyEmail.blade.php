@@ -152,7 +152,7 @@
         <form action="{{route('user.verify')}}" method="POST">
         @csrf
         <input type="hidden" name="email" value="{{ auth()->user()->email }}">
-        <input type="text" placeholder="Enter verification code" id="verification_code" name="verification_code">
+        <input type="text" placeholder="Introduce el código de verificación" id="verification_code" name="verification_code">
             <button type="submit">
                 <i class="fa-solid fa-paper-plane"></i>
             </button>

@@ -910,7 +910,7 @@
                     @csrf
                     <div class="error-text" id="registro-errors"></div>
                     <input type="text" placeholder="Nombre completo" class="input-text" id="name_register" name="name" value="{{ old('name') }}">
-                    <input type="text" placeholder="Cédula" class="input-text" id="ci_register" name="ci" value="{{ old('ci') }}">
+                    <input type="number" placeholder="Cédula" class="input-text" id="ci_register" name="ci" value="{{ old('ci') }}">
                     <select name="program_id" id="program_id" class="input-text">
                         <option value="">Seleccione un programa</option>
                         @foreach($programs as $program)
@@ -919,7 +919,7 @@
                     </select>
                     <input type="email" placeholder="Email" class="input-text" name="email" id="email_register" value="{{ old('email') }}">
                     <div class="grupo-input">
-                        <input type="password" placeholder="Password" name="password" id="password_register" class="input-text clave">
+                        <input type="password" placeholder="Contraseña" name="password" id="password_register" class="input-text clave">
                         <button type="button" class="icono fas fa-eye mostrarClave"></button>
                     </div>
 
