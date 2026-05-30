@@ -1,116 +1,77 @@
 @extends('layout.main')
 @section('title', $chat->name)
 @section('content')
+<style>
+    #chat-messages {
+        flex: 1;
+        min-height: 400px;
+        overflow-y: auto;
+        padding: 15px;
+        background-color: #f8fafc;
+        border-radius: 12px;
+        border: 1px solid #eef2f6;
+    }
+</style>
+
 <div class="container py-4">
-    <div class="card">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <h5>{{ $chat->name }}</h5>
-            <a href="{{ route('chats.create') }}" class="btn btn-sm btn-primary">
-                <i class="bx bx-plus"></i> Nuevo chat
-            </a>
+    <div class="card shadow-sm border-0" style="border-radius: 16px;">
+        <div class="card-header d-flex justify-content-between align-items-center bg-transparent border-bottom-0 pt-4 px-4 pb-0">
+            <h5 class="fw-bold mb-0 text-dark">{{ $chat->name }}</h5>
         </div>
-        <div class="card-body">
-            <div id="chat-messages" class="mb-3" style="flex: 1; overflow-y: auto;">
+        <div class="card-body p-4">
+            <div id="chat-messages" class="mb-3">
                 <!-- Mostrar mensajes existentes -->
                 @foreach($chat->messages as $message)
-                    <div class="mb-2">
-                        <div class="text-end">
-                            <span class="badge bg-primary">Tú</span>
-                            <div class="mt-1 p-2 rounded bg-primary text-white">
+                    <div class="mb-3 text-end">
+                        <div class="d-inline-block text-start" style="max-width: 75%;">
+                            <span class="badge bg-primary mb-1">Tú</span>
+                            <div class="p-3 bg-primary text-white shadow-sm" style="word-break: break-word; border-radius: 16px; border-bottom-right-radius: 4px; font-size: 0.95rem; line-height: 1.5;">
                                 {{ $message->content }}
                             </div>
                         </div>
-                        @if($message->response)
-                            <div class="text-start">
-                                <span class="badge bg-success">Asistente</span>
-                                <div class="mt-1 p-2 rounded bg-light">
+                    </div>
+                    @if($message->response)
+                        <div class="mb-3 text-start">
+                            <div class="d-inline-block text-start" style="max-width: 75%;">
+                                <span class="badge bg-success mb-1">Asistente</span>
+                                <div class="p-3 bg-light text-dark border" style="word-break: break-word; border-radius: 16px; border-bottom-left-radius: 4px; font-size: 0.95rem; line-height: 1.5;">
                                     @if($message->response->type == 'image')
-                                        <img src="{{ asset('storage/' . $message->response->content) }}" class="img-fluid rounded" alt="Respuesta imagen">
+                                        <img src="{{ asset('storage/' . $message->response->content) }}" class="img-fluid rounded border shadow-sm" style="max-height: 400px;" alt="Respuesta imagen">
+                                        <div class="small text-muted mt-1">Imagen relacionada (keywords match)</div>
+                                    @elseif($message->response->type == 'pdf')
+                                        <div class="d-flex align-items-center gap-2">
+                                            <i class="bx bxs-file-pdf text-danger fs-3"></i>
+                                            <a href="{{ asset('storage/' . $message->response->content) }}" target="_blank" rel="noopener" class="fw-bold text-decoration-none">Abrir PDF</a>
+                                        </div>
+                                        <div class="small text-muted mt-1">Documento relacionado (keywords match)</div>
                                     @else
-                                        {{ $message->response->content }}
+                                        {!! nl2br(e($message->response->content)) !!}
                                     @endif
                                 </div>
                             </div>
-                        @endif
-                    </div>
+                        </div>
+                    @endif
                 @endforeach
             </div>
 
-            <form id="message-form" onsubmit="return false;">
+            <!-- Entrada Deshabilitada (Lectura) -->
+            <form id="message-form" onsubmit="return false;" style="opacity: 0.65; cursor: not-allowed;">
                 @csrf
                 <div class="input-group">
-                    <input type="text" id="content" name="content" class="form-control" placeholder="Escribe tu mensaje...">
-                    <button type="submit" class="btn btn-primary" onclick="sendMessage()">Enviar</button>
+                    <textarea id="content" name="content" class="form-control" placeholder="Este chat está cerrado para nuevos mensajes (solo lectura)..." rows="1" disabled style="resize: none; max-height: 120px; overflow-y: auto; border-radius: 8px 0 0 8px; border-right: 0; padding: 12px 16px; background-color: #f1f3f5; cursor: not-allowed;"></textarea>
+                    <button type="button" class="btn btn-secondary px-4" disabled style="border-radius: 0 8px 8px 0; cursor: not-allowed;">Enviar</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 @endsection
+
 <script>
-    console.log("asd");
-    function sendMessage(){
-        const form = document.getElementById('message-form');
-        const input = document.getElementById('content');
+    document.addEventListener('DOMContentLoaded', function () {
         const chatContainer = document.getElementById('chat-messages');
-        const chatId = {{ $chat->id }};
-
-        form.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const message = input.value.trim();
-            if (!message) return;
-
-            // Añadir mensaje del usuario al chat
-            addMessageToChat('user', message);
-            input.value = '';
-            console.log('Enviando mensaje:', message);
-            try {
-                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-                const response = await fetch('/api/chats', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-                        'X-CSRF-TOKEN': csrfToken
-                    },
-                    body: JSON.stringify({
-                        content: message,
-                        chat_id: chatId
-                    })
-                });
-
-                if (!response.ok) {
-                    throw new Error('Error en la respuesta del servidor');
-                }
-
-                const data = await response.json();
-                console.log('data', data);
-                // Mostrar respuesta de Gemini
-                if (data.content) {
-                    addMessageToChat('ai', data.content);
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                addMessageToChat('ai', 'Lo siento, ocurrió un error. Por favor, intenta de nuevo.');
-            }
-        });
-
-        function addMessageToChat(sender, message) {
-            const messageDiv = document.createElement('div');
-            messageDiv.classList.add('mb-2');
-            messageDiv.innerHTML = `
-                <div class="${sender === 'user' ? 'text-end' : 'text-start'}">
-                    <span class="badge ${sender === 'user' ? 'bg-primary' : 'bg-success'}">
-                        ${sender === 'user' ? 'Tú' : 'Asistente'}
-                    </span>
-                    <div class="mt-1 p-2 rounded ${sender === 'user' ? 'bg-primary text-white' : 'bg-light'}">
-                        ${message}
-                    </div>
-                </div>
-            `;
-            chatContainer.appendChild(messageDiv);
+        if (chatContainer) {
             chatContainer.scrollTop = chatContainer.scrollHeight;
         }
-    }
+    });
 </script>

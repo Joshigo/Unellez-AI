@@ -812,7 +812,7 @@
      @if (session('success'))
         <script>
             Swal.fire({
-                title: '¡Success!',
+                title: '¡Hecho!',
                 text: "{{ session('success') }}",
                 icon: 'success',
                 confirmButtonText: 'Ok'

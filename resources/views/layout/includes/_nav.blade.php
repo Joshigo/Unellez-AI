@@ -6,7 +6,22 @@
         </a>
     </div>
 
-    <div class="navbar-nav-right d-flex align-items-center w-100 justify-content-end" id="navbar-collapse">
+    <div class="navbar-nav-right d-flex align-items-center w-100 justify-content-between" id="navbar-collapse">
+        <!-- Nombre de Usuario / Perfil en Sesión (A la izquierda) -->
+        <div class="d-flex align-items-center ms-2">
+            <div class="d-flex flex-column align-items-end me-2">
+                <span class="fw-semibold d-block text-dark" style="line-height: 1.2;">{{ auth()->user()->name ?? 'Usuario' }}</span>
+                <small class="text-muted" style="font-size: 0.72rem; line-height: 1.2;">
+                    {{ auth()->user()->program->name ?? 'Sin programa' }}
+                </small>
+            </div>
+            <div class="avatar avatar-online" style="width: 38px; height: 38px;">
+                <span class="avatar-initial rounded-circle bg-label-primary fw-bold text-uppercase d-flex align-items-center justify-content-center" style="width: 38px; height: 38px; font-size: 0.9rem;">
+                    {{ substr(auth()->user()->name ?? 'U', 0, 2) }}
+                </span>
+            </div>
+        </div>
+
         <ul class="navbar-nav flex-row ms-auto">
             <!-- Perfil -->
             <li class="nav-item pe-3">

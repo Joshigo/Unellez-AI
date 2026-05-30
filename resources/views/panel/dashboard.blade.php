@@ -1,5 +1,5 @@
 @extends('layout.main')
-@section('title', 'Dashboard')
+@section('title', 'Pagina principal')
 <style>
     .chart-container {
         margin-top: 20px;
@@ -32,6 +32,22 @@
 
     .bg-light-warning {
         background-color: rgba(245, 158, 11, 0.1);
+    }
+
+    .mascot-welcome-img {
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .mascot-welcome-img:hover {
+        transform: scale(1.15) rotate(4deg);
+        filter: drop-shadow(0 16px 28px rgba(105, 108, 255, 0.35)) !important;
+    }
+    @keyframes welcomeFloat {
+        from {
+            transform: translateY(0px);
+        }
+        to {
+            transform: translateY(-12px);
+        }
     }
 </style>
 @section('content')
@@ -126,7 +142,7 @@
             </div>
         </div>
     @elseif(isset($user) && $user->role_id == 3)
-        <h4 class="fw-bold py-3 mb-4">Dashboard de Jefatura de Programa</h4>
+        <h4 class="fw-bold py-3 mb-4">Pagina principal de Jefatura de Programa</h4>
 
         <div class="row">
             <!-- Tarjeta de Estudiantes (Rol 4) -->
@@ -212,6 +228,47 @@
                             <h4 class="ms-1 mb-0">{{ $responsesToday ?? 0 }}</h4>
                         </div>
                         <p class="mb-1">Respuestas generadas Hoy</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @elseif(isset($user) && $user->role_id == 4)
+        <div class="row justify-content-center align-items-center my-4" style="min-height: 70vh;">
+            <div class="col-12 col-md-10 col-lg-8 text-center">
+                <div class="card border-0 shadow-lg p-4 position-relative overflow-hidden" style="border-radius: 20px; background: linear-gradient(145deg, #ffffff 0%, #f4f6fc 100%);">
+                    <!-- Glassmorphism decorative radial glows in background -->
+                    <div class="position-absolute" style="width: 250px; height: 250px; background: radial-gradient(circle, rgba(105, 108, 255, 0.06) 0%, rgba(255, 255, 255, 0) 70%); top: -100px; right: -100px; pointer-events: none;"></div>
+                    <div class="position-absolute" style="width: 200px; height: 200px; background: radial-gradient(circle, rgba(3, 195, 236, 0.06) 0%, rgba(255, 255, 255, 0) 70%); bottom: -80px; left: -80px; pointer-events: none;"></div>
+
+                    <div class="card-body py-4 position-relative">
+                        <!-- Animated Bot Mascot -->
+                        <div class="mb-4">
+                            <img src="{{ asset('bot-center_blue.png') }}" class="img-fluid mascot-welcome-img" alt="Unellez AI Mascot" style="max-width: 200px; filter: drop-shadow(0 12px 20px rgba(105, 108, 255, 0.25)); animation: welcomeFloat 4s ease-in-out infinite alternate;">
+                        </div>
+
+                        <!-- Greeting -->
+                        <h3 class="fw-bold mb-2 text-primary">¡Hola, {{ auth()->user()->name ?? 'Estudiante' }}!</h3>
+                        <h5 class="text-dark fw-semibold mb-4">Te damos la bienvenida a <span class="text-primary fw-bold">Unellez AI</span></h5>
+
+                        <!-- Explanatory Text -->
+                        <p class="text-secondary px-md-3 mb-4" style="font-size: 1.05rem; line-height: 1.6;">
+                            Tu asistente virtual inteligente está aquí para ayudarte. Diseñado específicamente para responder todas tus inquietudes académicas relacionadas con tu <strong>programa de formación</strong>.
+                        </p>
+
+                        <div class="alert alert-primary bg-label-primary border-0 d-flex align-items-center justify-content-center p-3 mb-4 rounded-3" role="alert" style="font-size: 0.92rem; max-width: 600px; margin: 0 auto 1.5rem auto;">
+                            <i class="bx bx-info-circle me-2 fs-4" style="flex-shrink: 0;"></i>
+                            <div class="text-start">
+                                Este sistema interactúa contigo utilizando la información oficial suministrada y autorizada por los <strong>Jefes de tu Programa</strong> de formación.
+                            </div>
+                        </div>
+
+                        <!-- Action Button -->
+                        <div class="d-grid gap-2 col-md-8 mx-auto">
+                            <a href="{{ route('chats.create') }}" class="btn btn-primary btn-lg shadow-sm d-flex align-items-center justify-content-center gap-2" style="border-radius: 10px; transition: all 0.3s ease;">
+                                <i class="bx bx-message-square-add fs-4"></i>
+                                <span>Iniciar nueva consulta</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>

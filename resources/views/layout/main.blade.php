@@ -6,7 +6,6 @@
 <head>
     <meta charset="utf-8" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    {{--  <meta property="og:image" content="https://my.emiassistant.com/favicon_emi.png">  --}}
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
@@ -31,7 +30,6 @@
     <link href="{{ asset('sneat/assets/css/demo.css') }}" rel="stylesheet" />
     <link href="{{ asset('sneat/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" rel="stylesheet" />
     <link href="{{ asset('sneat/assets/vendor/libs/apex-charts/apex-charts.css') }}" rel="stylesheet" />
-    {{-- Scripts --}}
     <script src="{{ asset('sneat/assets/vendor/js/helpers.js') }}"></script>
     <script src="{{ asset('sneat/assets/js/config.js') }}"></script>
     <style>
@@ -249,6 +247,56 @@
             flex: 1;
             display: flex;
             flex-direction: column;
+        }
+
+        /* Sidebar bot promotion card */
+        .sidebar-promo-card {
+            background: linear-gradient(135deg, rgba(105, 108, 255, 0.08) 0%, rgba(3, 195, 236, 0.08) 100%);
+            border: 1px solid rgba(105, 108, 255, 0.15) !important;
+            border-radius: 12px !important;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(105, 108, 255, 0.05);
+            transition: all 0.3s ease;
+            margin-top: auto !important;
+            margin-bottom: 20px !important;
+        }
+
+        .sidebar-promo-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(105, 108, 255, 0.12);
+            border-color: rgba(105, 108, 255, 0.3) !important;
+        }
+
+        .promo-bot-image {
+            max-width: 135px;
+            height: auto;
+            filter: drop-shadow(0 8px 12px rgba(105, 108, 255, 0.2));
+            animation: floatMascot 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes floatMascot {
+            from {
+                transform: translateY(0px);
+            }
+            to {
+                transform: translateY(-8px);
+            }
+        }
+
+        .promo-bg-glow {
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(105, 108, 255, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
+            pointer-events: none;
+            transform: rotate(45deg);
+            transition: all 0.5s ease;
+        }
+
+        .sidebar-promo-card:hover .promo-bg-glow {
+            transform: rotate(90deg) scale(1.1);
         }
 
     </style>
@@ -793,7 +841,7 @@
         // Código de SweetAlert para éxito y error
         @if (session('success'))
             Swal.fire({
-                title: '¡Success!',
+                title: '¡Hecho!',
                 text: "{{ session('success') }}",
                 icon: 'success',
                 confirmButtonText: 'Ok'

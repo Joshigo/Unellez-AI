@@ -58,5 +58,13 @@
                 </a>
             </li>
         @endforeach
-    </li>
+    </ul>
+
+    <!-- Bot Mascot Promotion Card -->
+    <div class="sidebar-promo-card m-3 p-3 text-center border-0 rounded-3">
+        <div class="promo-bg-glow"></div>
+        <img src="{{ asset('bot-center_blue.png') }}" class="promo-bot-image mb-2" alt="Unellez AI Bot Mascot">
+        <h5 class="fw-bold mb-1 text-primary" style="font-size: 0.95rem;">Unellez AI</h5>
+        <p class="text-muted small mb-0" style="font-size: 0.75rem;">Tu Asistente Inteligente</p>
+    </div>
 </aside>
