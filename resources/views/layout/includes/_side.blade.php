@@ -1,5 +1,14 @@
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
-    <div class="app-brand demo">
+    
+    <a href="{{ route('dashboard.index') }}" class="text-decoration-none d-block">
+        <div class="sidebar-promo-card m-3 p-3 text-center border-0 rounded-3">
+            <div class="promo-bg-glow"></div>
+            <img src="{{ asset('bot-center_blue.png') }}" class="promo-bot-image mb-2" alt="Unellez AI Bot Mascot">
+            <h5 class="fw-bold mb-1 text-primary" style="font-size: 0.95rem;">Unellez AI</h5>
+            <p class="text-muted small mb-0" style="font-size: 0.75rem;">Tu Asistente Inteligente</p>
+        </div>
+    </a>
+<!-- <div class="app-brand demo">
         <a href="{{ route('dashboard.index') }}" class="app-brand-link">
             <span class="app-brand-logo demo">
                 <img src="{{ asset('logo_blue.png') }}" width="50" height="50" alt="">
@@ -9,7 +18,7 @@
         <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
             <i class="bx bx-chevron-left bx-sm align-middle"></i>
         </a>
-    </div>
+    </div> -->
     <div class="menu-inner-shadow"></div>
     <ul class="menu-inner py-1">
 
@@ -61,10 +70,10 @@
     </ul>
 
     <!-- Bot Mascot Promotion Card -->
-    <div class="sidebar-promo-card m-3 p-3 text-center border-0 rounded-3">
+    <!-- <div class="sidebar-promo-card m-3 p-3 text-center border-0 rounded-3">
         <div class="promo-bg-glow"></div>
         <img src="{{ asset('bot-center_blue.png') }}" class="promo-bot-image mb-2" alt="Unellez AI Bot Mascot">
         <h5 class="fw-bold mb-1 text-primary" style="font-size: 0.95rem;">Unellez AI</h5>
         <p class="text-muted small mb-0" style="font-size: 0.75rem;">Tu Asistente Inteligente</p>
-    </div>
+    </div> -->
 </aside>

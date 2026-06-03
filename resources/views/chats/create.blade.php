@@ -2,14 +2,43 @@
 @section('title', 'Nuevo Chat')
 @section('content')
 <style>
+    .chat-messages-container {
+        position: relative;
+        flex: 1;
+        min-height: 400px;
+        background-color: #f8fafc;
+        border-radius: 12px;
+        border: 1px solid #eef2f6;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .chat-messages-container::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: url('{{ asset("icon_blue.png") }}');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: min(280px, 60%);
+        opacity: 0.08;
+        filter: blur(1.5px);
+        pointer-events: none;
+        z-index: 0;
+    }
+
     #chat-messages {
         flex: 1;
         min-height: 400px;
         overflow-y: auto;
         padding: 15px;
-        background-color: #f8fafc;
-        border-radius: 12px;
-        border: 1px solid #eef2f6;
+        background-color: transparent;
+        position: relative;
+        z-index: 1;
     }
 
     /* Mascot Loading Animation */
@@ -32,8 +61,10 @@
 <div class="container py-4">
     <div class="card shadow-sm border-0" style="border-radius: 16px;">
         <div class="card-body p-4">
-            <div id="chat-messages" class="mb-3">
-                <!-- Mensajes aparecerán aquí -->
+            <div class="chat-messages-container mb-3">
+                <div id="chat-messages">
+                    <!-- Mensajes aparecerán aquí -->
+                </div>
             </div>
             <form id="message-form" onsubmit="return false;">
                 @csrf
